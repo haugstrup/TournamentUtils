@@ -7,14 +7,14 @@ This is very much a work in progress. I made this for pinball match-play pinball
     <?php
     require('GroupBuilder/src/GroupBuilder.php');
 
-    // Make group builder instance
-    $groupBuilder = new haugstrup\GroupBuilder\GroupBuilder($players_list);
-
     // Make some fake player objects
     $players_list = array();
     for($i=0;$i<45;$i++) {
       $players_list[] = 'Seed #'.($i+1);
     }
+
+    // Make group builder instance
+    $groupBuilder = new haugstrup\GroupBuilder\GroupBuilder($players_list);
 
     // Generate groups for all possible rounds
     $round = 0;
