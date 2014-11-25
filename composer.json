@@ -1,0 +1,18 @@
+{
+    "name": "haugstrup/GroupBuilder",
+    "description": "Group builder for match-play pinball tournaments",
+    "license": "MIT",
+    "keywords": ["pinball"],
+    "authors": [
+        {
+            "name": "Andreas Haugstrup Pedersen",
+        }
+    ],
+    "require": {},
+    "require-dev": {},
+    "autoload": {
+        "psr-4": {
+            "haugstrup\\GroupBuilder\\": "src"
+        }
+    }
+}
