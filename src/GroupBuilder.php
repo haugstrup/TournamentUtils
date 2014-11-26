@@ -44,12 +44,17 @@ class GroupBuilder {
   public $rounds = 5;
   public $max_players = 48;
   public $players = array();
+  protected $min_players = 16;
 
   public function __construct($rounds, $players, $options = array()) {
     $this->players = $players;
     $this->rounds = $rounds;
     if (isset($options['max_players'])) {
       $this->max_players = $options['max_players'];
+    }
+
+    if (count($this->players) < $this->min_players) {
+      throw new \Exception('You must have at least 16 players');
     }
   }
 
@@ -72,7 +77,7 @@ class GroupBuilder {
     }
 
     if (!$map) {
-      throw new Exception('Couldn\'t find map');
+      throw new \Exception('Couldn\'t find map');
     }
 
     return array('map' => $map, 'key' => $key);
@@ -96,10 +101,10 @@ class GroupBuilder {
 
     // Stay within boundaries
     if ($round >= $this->rounds || $round < 0) {
-      throw new Exception('Too many or too few rounds');
+      throw new \Exception('Too many or too few rounds');
     }
     if ($player_count > $this->max_players || $player_count < 0) {
-      throw new Exception('Too many or too few players');
+      throw new \Exception('Too many or too few players');
     }
 
     $round_map = $this->get_round_map($round);
