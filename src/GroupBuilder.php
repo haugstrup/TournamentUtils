@@ -8,6 +8,7 @@ class GroupBuilder {
     20 => array(20, 20, 20, array(12, 8), array(12, 8), array(8, 8, 4), array(8, 8, 4)),
     24 => array(24, 24, 24, 12, 12, 8, 8),
     28 => array(28, 28, 28, array(16, 12), array(16, 12), array(8, 8, 8, 4), array(8, 8, 8, 4)),
+    32 => array(32, 32, 32, 16, 16, 8, 8),
     36 => array(36, array(20, 16), array(20, 16), 12, 12, array(8, 8, 8, 8, 4), array(8, 8, 8, 8, 4)),
     40 => array(40, 20, 20, array(16, 16, 8), array(16, 16, 8), 8, 8),
     44 => array(44, array(24, 20), array(24, 20), array(16, 16, 12), array(16, 16, 12), array(8, 8, 8, 8, 8, 4)),
@@ -87,13 +88,23 @@ class GroupBuilder {
       // Then decrease the amount of players we grab for second-to-last group
       if (count($round_map)-2 == $index) {
 
+        // Remaining players == required left players-2
         if (count($players) === ($round_map[$index]+$round_map[$index+1]-2)) {
-          $number_of_players--;
+          if ($round_map[$index+1] === 4) {
+            $number_of_players--;
+          }
         }
 
+        // Remaining players == required players-3
         if (count($players) === ($round_map[$index]+$round_map[$index+1]-3)) {
-          $number_of_players--;
+
+          if ($round_map[$index+1] === 8) {
+            $number_of_players--;
+          }
+
+          // Next round calls for 4 players
           if ($round_map[$index+1] === 4) {
+            $number_of_players--;
             $number_of_players--;
           }
         }
@@ -107,7 +118,7 @@ class GroupBuilder {
       $number_of_groups = $size/4;
 
       for($j=0;$j<$number_of_groups;$j++) {
-        $three_player_group = count($tier_players) == 6 || count($tier_players) == 3;
+        $three_player_group = count($tier_players) == 9 || count($tier_players) == 6 || count($tier_players) == 3;
         $middle_offset = ceil(count($tier_players)/2)-2;
 
         // Grab the first, middle and last players
