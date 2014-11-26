@@ -18,7 +18,7 @@
           <select name="player_count" class="form-control">
             <option value="">Number of players...</option>
             <?php
-              for ($i=16;$i<=48;$i++) {
+              for ($i=64;$i>=16;$i--) {
                 $selected = !empty($_GET['player_count']) && (int)$_GET['player_count'] === $i ? 'selected' : '';
                 print "<option {$selected} value='{$i}'>{$i} players</option>";
               }
