@@ -2,68 +2,90 @@
 
 class GroupBuilder {
 
-  public $group_maps = array(
-    5 => array(
-      16 => array(16, 16, 8, 8, 4),
-      20 => array(20, array(12, 8), array(12, 8), array(8, 8, 4), 4),
-      24 => array(24, 12, 12, 8, 4),
-      28 => array(28, array(16, 12), array(16, 12), array(8, 8, 8, 4), 4),
-      32 => array(32, 16, 16, 8, 4),
-      36 => array(36, array(20, 16), 12, array(8, 8, 8, 8, 4), 4),
-      40 => array(40, 20, array(16, 16, 8), 8, 4),
-      44 => array(44, array(24, 20), array(16, 16, 12), array(8, 8, 8, 8, 8, 4), 4),
-      48 => array(48, 24, 16, 8, 4),
-      52 => array(52, array(28, 24), array(20, 20, 12), array(8, 8, 8, 8, 8, 8, 4), 4),
-      56 => array(56, 28, array(16, 16, 16, 8), 8, 4),
-      60 => array(60, 20, 12, array(8, 8, 8, 8, 8, 8, 8, 4), 4),
-      64 => array(64, 32, 16, 8, 4),
-    ),
-
-    10 => array(
-      16 => array(16, 16, 16, 16, 8, 8, 8, 8, 8, 4),
-      20 => array(20, array(12, 8), array(12, 8), array(12, 8), array(12, 8), array(8, 8, 4), array(8, 8, 4), array(8, 8, 4), array(8, 8, 4), 4),
-      24 => array(24, 12, 12, 12, 12, 8, 8, 8, 8, 4),
-      28 => array(28, array(16, 12), array(16, 12), array(16, 12), array(16, 12), array(8, 8, 8, 4), array(8, 8, 8, 4), array(8, 8, 8, 4), array(8, 8, 8, 4), 4),
-      32 => array(32, 16, 16, 16, 16, 8, 8, 8, 8, 4),
-      36 => array(36, array(20, 16), array(20, 16), 12, 12, 12, array(8, 8, 8, 8, 4), array(8, 8, 8, 8, 4), array(8, 8, 8, 8, 4), 4),
-      40 => array(40, 20, 20, array(16, 16, 8), array(16, 16, 8), array(16, 16, 8), 8, 8, 8, 4),
-      44 => array(44, array(24, 20), array(24, 20), array(16, 16, 12), array(16, 16, 12), array(16, 16, 12), array(8, 8, 8, 8, 8, 4), array(8, 8, 8, 8, 8, 4), array(8, 8, 8, 8, 8, 4), 4),
-      48 => array(48, 24, 24, 16, 16, 16, 8, 8, 8, 4),
-      52 => array(52, array(28, 24), array(28, 24), array(20, 20, 12), array(20, 20, 12), array(20, 20, 12), array(8, 8, 8, 8, 8, 8, 4), array(8, 8, 8, 8, 8, 8, 4), array(8, 8, 8, 8, 8, 8, 4), 4),
-      56 => array(56, 28, 28, array(16, 16, 16, 8), array(16, 16, 16, 8), array(16, 16, 16, 8), 8, 8, 8, 4),
-      60 => array(60, 20, 20, 12, 12, 12, array(8, 8, 8, 8, 8, 8, 8, 4), array(8, 8, 8, 8, 8, 8, 8, 4), array(8, 8, 8, 8, 8, 8, 8, 4), 4),
-      64 => array(64, 32, 32, 16, 16, 16, 8, 8, 8, 4),
-    ),
-
-    // Pinball at the lake, 7 round tiers
-    // 7 => array(
-    //   16 => array(16, 16, 16, 16, 8, 8, 8),
-    //   20 => array(20, 20, 20, array(12, 8), array(12, 8), array(8, 8, 4), array(8, 8, 4)),
-    //   24 => array(24, 24, 24, 12, 12, 8, 8),
-    //   28 => array(28, 28, 28, array(16, 12), array(16, 12), array(8, 8, 8, 4), array(8, 8, 8, 4)),
-    //   32 => array(32, 32, 32, 16, 16, 8, 8),
-    //   36 => array(36, array(20, 16), array(20, 16), 12, 12, array(8, 8, 8, 8, 4), array(8, 8, 8, 8, 4)),
-    //   40 => array(40, 20, 20, array(16, 16, 8), array(16, 16, 8), 8, 8),
-    //   44 => array(44, array(24, 20), array(24, 20), array(16, 16, 12), array(16, 16, 12), array(8, 8, 8, 8, 8, 4)),
-    //   48 => array(48, 24, 24, 16, 16, 8, 8),
-    // )
-  );
-
   public $rounds = 5;
   public $players = array();
+  public $group_maps = array();
   public $max_players = 64;
   protected $min_players = 16;
 
   public function __construct($rounds, $players, $options = array()) {
     $this->players = $players;
-    $this->rounds = $rounds;
+    $this->rounds = (int)$rounds;
     if (isset($options['max_players'])) {
       $this->max_players = $options['max_players'];
     }
 
+    $this->init_group_maps();
+
     if (count($this->players) < $this->min_players) {
       throw new \Exception('You must have at least 16 players');
     }
+  }
+
+  public function init_group_maps() {
+    $maps = array(
+      5 => array(
+        16 => array(16, 16, 8, 8, 4),
+        20 => array(20, array(12, 8), array(12, 8), array(8, 8, 4), 4),
+        24 => array(24, 12, 12, 8, 4),
+        28 => array(28, array(16, 12), array(16, 12), array(8, 8, 8, 4), 4),
+        32 => array(32, 16, 16, 8, 4),
+        36 => array(36, array(20, 16), 12, array(8, 8, 8, 8, 4), 4),
+        40 => array(40, 20, array(16, 16, 8), 8, 4),
+        44 => array(44, array(24, 20), array(16, 16, 12), array(8, 8, 8, 8, 8, 4), 4),
+        48 => array(48, 24, 16, 8, 4),
+        52 => array(52, array(28, 24), array(20, 20, 12), array(8, 8, 8, 8, 8, 8, 4), 4),
+        56 => array(56, 28, array(16, 16, 16, 8), 8, 4),
+        60 => array(60, 20, 12, array(8, 8, 8, 8, 8, 8, 8, 4), 4),
+        64 => array(64, 32, 16, 8, 4),
+      ),
+
+      10 => array(
+        16 => array(16, 16, 16, 16, 8, 8, 8, 8, 8, 4),
+        20 => array(20, array(12, 8), array(12, 8), array(12, 8), array(12, 8), array(8, 8, 4), array(8, 8, 4), array(8, 8, 4), array(8, 8, 4), 4),
+        24 => array(24, 12, 12, 12, 12, 8, 8, 8, 8, 4),
+        28 => array(28, array(16, 12), array(16, 12), array(16, 12), array(16, 12), array(8, 8, 8, 4), array(8, 8, 8, 4), array(8, 8, 8, 4), array(8, 8, 8, 4), 4),
+        32 => array(32, 16, 16, 16, 16, 8, 8, 8, 8, 4),
+        36 => array(36, array(20, 16), array(20, 16), 12, 12, 12, array(8, 8, 8, 8, 4), array(8, 8, 8, 8, 4), array(8, 8, 8, 8, 4), 4),
+        40 => array(40, 20, 20, array(16, 16, 8), array(16, 16, 8), array(16, 16, 8), 8, 8, 8, 4),
+        44 => array(44, array(24, 20), array(24, 20), array(16, 16, 12), array(16, 16, 12), array(16, 16, 12), array(8, 8, 8, 8, 8, 4), array(8, 8, 8, 8, 8, 4), array(8, 8, 8, 8, 8, 4), 4),
+        48 => array(48, 24, 24, 16, 16, 16, 8, 8, 8, 4),
+        52 => array(52, array(28, 24), array(28, 24), array(20, 20, 12), array(20, 20, 12), array(20, 20, 12), array(8, 8, 8, 8, 8, 8, 4), array(8, 8, 8, 8, 8, 8, 4), array(8, 8, 8, 8, 8, 8, 4), 4),
+        56 => array(56, 28, 28, array(16, 16, 16, 8), array(16, 16, 16, 8), array(16, 16, 16, 8), 8, 8, 8, 4),
+        60 => array(60, 20, 20, 12, 12, 12, array(8, 8, 8, 8, 8, 8, 8, 4), array(8, 8, 8, 8, 8, 8, 8, 4), array(8, 8, 8, 8, 8, 8, 8, 4), 4),
+        64 => array(64, 32, 32, 16, 16, 16, 8, 8, 8, 4),
+      ),
+
+      // Pinball at the lake, 7 round tiers
+      // 7 => array(
+      //   16 => array(16, 16, 16, 16, 8, 8, 8),
+      //   20 => array(20, 20, 20, array(12, 8), array(12, 8), array(8, 8, 4), array(8, 8, 4)),
+      //   24 => array(24, 24, 24, 12, 12, 8, 8),
+      //   28 => array(28, 28, 28, array(16, 12), array(16, 12), array(8, 8, 8, 4), array(8, 8, 8, 4)),
+      //   32 => array(32, 32, 32, 16, 16, 8, 8),
+      //   36 => array(36, array(20, 16), array(20, 16), 12, 12, array(8, 8, 8, 8, 4), array(8, 8, 8, 8, 4)),
+      //   40 => array(40, 20, 20, array(16, 16, 8), array(16, 16, 8), 8, 8),
+      //   44 => array(44, array(24, 20), array(24, 20), array(16, 16, 12), array(16, 16, 12), array(8, 8, 8, 8, 8, 4)),
+      //   48 => array(48, 24, 24, 16, 16, 8, 8),
+      // )
+    );
+
+    // Prep group maps for 3 and 4 rounds
+    foreach ($maps[5] as $index => $tiers) {
+
+      // For three rounds, remove index 1, 2
+      $three_round_tiers = $tiers;
+      array_splice($three_round_tiers, 1, 2);
+
+      // For four rounds, remove index 2 (the middle round)
+      $four_round_tiers = $tiers;
+      array_splice($four_round_tiers, 2, 1);
+
+      $maps[3][$index] = $three_round_tiers;
+      $maps[4][$index] = $four_round_tiers;
+    }
+
+    $this->group_maps = $maps;
   }
 
   public function get_group_map() {
@@ -85,7 +107,7 @@ class GroupBuilder {
     }
 
     if (!$map) {
-      throw new \Exception('Couldn\'t find map');
+      throw new \Exception('Couldn\'t find tier map');
     }
 
     return array('map' => $map, 'key' => $key);

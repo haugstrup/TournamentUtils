@@ -26,6 +26,8 @@
           </select>
           <select name="rounds" class="form-control">
             <option value="">Number of rounds...</option>
+            <option value="3" <?php print !empty($_GET['rounds']) && (int)$_GET['rounds'] === 3 ? 'selected' : '' ?>>3 rounds</option>
+            <option value="4" <?php print !empty($_GET['rounds']) && (int)$_GET['rounds'] === 4 ? 'selected' : '' ?>>4 rounds</option>
             <option value="5" <?php print !empty($_GET['rounds']) && (int)$_GET['rounds'] === 5 ? 'selected' : '' ?>>5 rounds</option>
             <option value="10" <?php print !empty($_GET['rounds']) && (int)$_GET['rounds'] === 10 ? 'selected' : '' ?>>10 rounds</option>
           </select>
