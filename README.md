@@ -1,6 +1,13 @@
 # Group builder for match-play tournaments
 This is very much a work in progress. I made this for pinball match-play pinball tournaments. Input an array of seeded players and it'll generate 4 player groups based on your seeds and a predefined map of increasingly smaller tiers (so players will be playing opponents at roughly their own level).
 
+# Visual explanation
+* Check out this repository
+* Start a webserver
+* Run `example/index.php`
+
+Or go to [http://seeder.slapsave.com/](http://seeder.slapsave.com/)
+
 # Example
 
 ```php
@@ -13,12 +20,15 @@ This is very much a work in progress. I made this for pinball match-play pinball
       $players_list[] = 'Seed #'.($i+1);
     }
 
+    // Define number of rounds (5 or 10)
+    $rounds = 5;
+
     // Make group builder instance
-    $groupBuilder = new haugstrup\GroupBuilder\GroupBuilder($players_list);
+    $groupBuilder = new haugstrup\GroupBuilder\GroupBuilder($rounds, $players_list);
 
     // Generate groups for all possible rounds
     $round = 0;
-    while($round < $groupBuilder->max_rounds) {
+    while($round < $groupBuilder->rounds) {
       print "\n------------------------------------------------\n\n";
       print "Round: ".((string)$round)."\n";
 
