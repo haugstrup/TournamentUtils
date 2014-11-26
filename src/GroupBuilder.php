@@ -1,28 +1,53 @@
 <?php namespace haugstrup\GroupBuilder;
 
-// TODO: Use different/accelerated group_map for < 6 rounds
-
 class GroupBuilder {
-  public $group_map = array(
-    16 => array(16, 16, 16, 16, 8, 8, 8),
-    20 => array(20, 20, 20, array(12, 8), array(12, 8), array(8, 8, 4), array(8, 8, 4)),
-    24 => array(24, 24, 24, 12, 12, 8, 8),
-    28 => array(28, 28, 28, array(16, 12), array(16, 12), array(8, 8, 8, 4), array(8, 8, 8, 4)),
-    32 => array(32, 32, 32, 16, 16, 8, 8),
-    36 => array(36, array(20, 16), array(20, 16), 12, 12, array(8, 8, 8, 8, 4), array(8, 8, 8, 8, 4)),
-    40 => array(40, 20, 20, array(16, 16, 8), array(16, 16, 8), 8, 8),
-    44 => array(44, array(24, 20), array(24, 20), array(16, 16, 12), array(16, 16, 12), array(8, 8, 8, 8, 8, 4)),
-    48 => array(48, 24, 24, 16, 16, 8, 8),
+
+  public $group_maps = array(
+    5 => array(
+      16 => array(16, 16, 8, 8, 4),
+      20 => array(20, array(12, 8), array(12, 8), array(8, 8, 4), 4),
+      24 => array(24, 12, 12, 8, 4),
+      28 => array(28, array(16, 12), array(16, 12), array(8, 8, 8, 4), 4),
+      32 => array(32, 16, 16, 8, 4),
+      36 => array(36, array(20, 16), 12, array(8, 8, 8, 8, 4), 4),
+      40 => array(40, 20, array(16, 16, 8), 8, 4),
+      44 => array(44, array(24, 20), array(16, 16, 12), array(8, 8, 8, 8, 8, 4), 4),
+      48 => array(48, 24, 16, 8, 4),
+    ),
+
+    10 => array(
+      16 => array(16, 16, 16, 16, 8, 8, 8, 8, 8, 4),
+      20 => array(20, array(12, 8), array(12, 8), array(12, 8), array(12, 8), array(8, 8, 4), array(8, 8, 4), array(8, 8, 4), array(8, 8, 4), 4),
+      24 => array(24, 12, 12, 12, 12, 8, 8, 8, 8, 4),
+      28 => array(28, array(16, 12), array(16, 12), array(16, 12), array(16, 12), array(8, 8, 8, 4), array(8, 8, 8, 4), array(8, 8, 8, 4), array(8, 8, 8, 4), 4),
+      32 => array(32, 16, 16, 16, 16, 8, 8, 8, 8, 4),
+      36 => array(36, array(20, 16), array(20, 16), 12, 12, 12, array(8, 8, 8, 8, 4), array(8, 8, 8, 8, 4), array(8, 8, 8, 8, 4), 4),
+      40 => array(40, 20, 20, array(16, 16, 8), array(16, 16, 8), array(16, 16, 8), 8, 8, 8, 4),
+      44 => array(44, array(24, 20), array(24, 20), array(16, 16, 12), array(16, 16, 12), array(16, 16, 12), array(8, 8, 8, 8, 8, 4), array(8, 8, 8, 8, 8, 4), array(8, 8, 8, 8, 8, 4), 4),
+      48 => array(48, 24, 24, 16, 16, 16, 8, 8, 8, 4),
+    ),
+
+    // Pinball at the lake, 7 round tiers
+    7 => array(
+      16 => array(16, 16, 16, 16, 8, 8, 8),
+      20 => array(20, 20, 20, array(12, 8), array(12, 8), array(8, 8, 4), array(8, 8, 4)),
+      24 => array(24, 24, 24, 12, 12, 8, 8),
+      28 => array(28, 28, 28, array(16, 12), array(16, 12), array(8, 8, 8, 4), array(8, 8, 8, 4)),
+      32 => array(32, 32, 32, 16, 16, 8, 8),
+      36 => array(36, array(20, 16), array(20, 16), 12, 12, array(8, 8, 8, 8, 4), array(8, 8, 8, 8, 4)),
+      40 => array(40, 20, 20, array(16, 16, 8), array(16, 16, 8), 8, 8),
+      44 => array(44, array(24, 20), array(24, 20), array(16, 16, 12), array(16, 16, 12), array(8, 8, 8, 8, 8, 4)),
+      48 => array(48, 24, 24, 16, 16, 8, 8),
+    )
   );
-  public $max_rounds = 7;
+
+  public $rounds = 5;
   public $max_players = 48;
   public $players = array();
 
-  public function __construct($players, $options = array()) {
+  public function __construct($rounds, $players, $options = array()) {
     $this->players = $players;
-    if (isset($options['max_rounds'])) {
-      $this->max_rounds = $options['max_rounds'];
-    }
+    $this->rounds = $rounds;
     if (isset($options['max_players'])) {
       $this->max_players = $options['max_players'];
     }
@@ -30,15 +55,15 @@ class GroupBuilder {
 
   public function get_group_map() {
     $player_count = count($this->players);
-    if (isset($this->group_map[$player_count])) {
-      $map = $this->group_map[$player_count];
+    if (isset($this->group_maps[$this->rounds][$player_count])) {
+      $map = $this->group_maps[$this->rounds][$player_count];
       $key = $player_count;
     }
     else {
       $i = $player_count;
       while ($i <= $this->max_players) {
-        if (isset($this->group_map[$i])) {
-          $map = $this->group_map[$i];
+        if (isset($this->group_maps[$this->rounds][$i])) {
+          $map = $this->group_maps[$this->rounds][$i];
           $key = $i;
           break;
         }
@@ -70,7 +95,7 @@ class GroupBuilder {
     $groups = array();
 
     // Stay within boundaries
-    if ($round >= $this->max_rounds || $round < 0) {
+    if ($round >= $this->rounds || $round < 0) {
       throw new Exception('Too many or too few rounds');
     }
     if ($player_count > $this->max_players || $player_count < 0) {
@@ -82,7 +107,16 @@ class GroupBuilder {
     foreach ($round_map as $index => $size) {
       $number_of_players = $size;
 
-      // If we're in the second two last group and...
+      // If we're in the third to last group and...
+      // ...there are 9 players left
+      // ...all tiers are 4
+      // Then make all three player groups
+      if (count($round_map)-3 == $index && count($players) == 9 && $round_map[$index] === 4) {
+        $number_of_players--;
+      }
+
+
+      // If we're in the second to last group and...
       // ...we need to create 2 three-player groups
       // ...or we need to create 3 three-player groups
       // Then decrease the amount of players we grab for second-to-last group
