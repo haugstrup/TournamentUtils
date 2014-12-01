@@ -7,7 +7,7 @@ Input an array of seeded players and it'll pair them up according to the Danish 
 ## GroupPairing
 Input an array of seeded players and it'll generate 4 player groups based on your seeds and a predefined map of increasingly smaller tiers (so players will be playing opponents at roughly their own level). Just like Pinburgh.
 
-# Visual explanation
+### Visual explanation
 * Check out this repository
 * Start a webserver
 * Run `example/GroupPairing/index.php`
