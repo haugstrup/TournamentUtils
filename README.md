@@ -5,6 +5,7 @@ TODO:
 
 * BalancedHeadToHeadPairing: Balanced pairing of head to head groups based on a seeded list of players
 * Arena/Machine randomizer: Input two or more players including how many times they've played a machine and a list of available machines. Picks the most "foreign" machine
+* Add support for up to 128 players in GroupPairing
 
 ## DanishHeadToHeadPairing
 Input an array of seeded players and it'll pair them up according to the Danish system. Seed #1 will play Seed #2, Seed #3 will play seed #4 and so on. Returns an associative array with `groups` and `byes`. The bye will always go to the last seed. Example in `example/DanishHeadToHeadPaiting`.
