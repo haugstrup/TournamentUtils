@@ -12,7 +12,7 @@ Or go to [http://seeder.slapsave.com/](http://seeder.slapsave.com/)
 
 ```php
     <?php
-    require('GroupBuilder/src/GroupBuilder.php');
+    require('TournamentUtils/src/GroupPairing.php');
 
     // Make some fake player objects
     $players_list = array();
@@ -24,7 +24,7 @@ Or go to [http://seeder.slapsave.com/](http://seeder.slapsave.com/)
     $rounds = 5;
 
     // Make group builder instance
-    $groupBuilder = new haugstrup\GroupBuilder\GroupBuilder($rounds, $players_list);
+    $groupBuilder = new haugstrup\TournamentUtils\GroupPairing($rounds, $players_list);
 
     // Generate groups for all possible rounds
     $round = 0;

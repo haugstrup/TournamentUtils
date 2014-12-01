@@ -1,6 +1,6 @@
-<?php namespace haugstrup\GroupBuilder;
+<?php namespace haugstrup\TournamentUtils;
 
-class GroupBuilder {
+class GroupPairing {
 
   public $rounds = 5;
   public $players = array();

@@ -13,7 +13,7 @@
   <body>
     <div class="container">
       <h1>Match play group generation</h1>
-      <p>Select a number of players below to see how groups will be generated for that amount of players. This is roughly the same seeding system as used for Pinball at the Lake (Karl DeAngelo).</p>
+      <p>Select a number of players below to see how groups will be generated for that amount of players. This is the same seeding system as used for Pinburgh and Pinball at the Lake. Current 16 to 64 players is supported along with tiers for 3, 4, 5 or 10 rounds of play.</p>
       <form action="/" method="get" class="form-inline">
           <select name="player_count" class="form-control">
             <option value="">Number of players...</option>
@@ -35,7 +35,7 @@
       </form>
 
       <?php
-      require('../src/GroupBuilder.php');
+      require('../../src/GroupPairing.php');
 
       if (!empty($_GET['player_count']) && is_numeric($_GET['player_count']) && !empty($_GET['rounds']) && is_numeric($_GET['rounds'])) {
         $player_count = (int)$_GET['player_count'];
@@ -43,7 +43,7 @@
         for($i=0;$i<$player_count;$i++) {
           $players_list[] = 'Seed #'.($i+1);
         }
-        $groupBuilder = new haugstrup\GroupBuilder\GroupBuilder((int)$_GET['rounds'], $players_list);
+        $groupBuilder = new haugstrup\TournamentUtils\GroupPairing((int)$_GET['rounds'], $players_list);
         $group_map = $groupBuilder->get_group_map();
 
         print "<hr><h2>Tier sizes for {$player_count} players (using tiers for {$group_map['key']} players)</h2>";
