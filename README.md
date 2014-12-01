@@ -1,5 +1,11 @@
-# Group builder for match-play tournaments
-This is very much a work in progress. I made this for pinball match-play pinball tournaments. Input an array of seeded players and it'll generate 4 player groups based on your seeds and a predefined map of increasingly smaller tiers (so players will be playing opponents at roughly their own level).
+# Tournament Utilities
+This is a handful of utility classes for handling group generation, seeding etc. for pinball match-play tournaments
+
+## DanishHeadToHeadPairing
+Input an array of seeded players and it'll pair them up according to the Danish system. Seed #1 will play Seed #2, Seed #3 will play seed #4 and so on. Returns an associative array with `groups` and `byes`. The bye will always go to the last seed. Example in `example/DanishHeadToHeadPaiting`.
+
+## GroupPairing
+Input an array of seeded players and it'll generate 4 player groups based on your seeds and a predefined map of increasingly smaller tiers (so players will be playing opponents at roughly their own level). Just like Pinburgh.
 
 # Visual explanation
 * Check out this repository
@@ -8,7 +14,7 @@ This is very much a work in progress. I made this for pinball match-play pinball
 
 Or go to [http://seeder.slapsave.com/](http://seeder.slapsave.com/)
 
-# Example
+### Example
 
 ```php
     <?php
