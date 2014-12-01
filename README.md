@@ -4,7 +4,7 @@ This is very much a work in progress. I made this for pinball match-play pinball
 # Visual explanation
 * Check out this repository
 * Start a webserver
-* Run `example/index.php`
+* Run `example/GroupPairing/index.php`
 
 Or go to [http://seeder.slapsave.com/](http://seeder.slapsave.com/)
 
