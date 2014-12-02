@@ -4,7 +4,6 @@ This is a handful of utility classes for handling group generation, seeding etc.
 TODO:
 
 * BalancedHeadToHeadPairing: Balanced pairing of head to head groups based on a seeded list of players
-* Add support for up to 128 players in GroupPairing
 
 ## ArenaSelector
 Pretty naive arena selector. Input an array of arenas and the amount of times each have been played and an array of available arenas (each arena must be an object that implements a `getArenaId` method). The selector will pick a random arena that hasn't been played before or failing that the least played arena of the available ones. Example in `example/ArenaSelector`.

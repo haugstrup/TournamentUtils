@@ -13,12 +13,12 @@
   <body>
     <div class="container">
       <h1>Match play group generation</h1>
-      <p>Select a number of players below to see how groups will be generated for that amount of players. This is the same seeding system as used for Pinburgh and Pinball at the Lake. Current 16 to 64 players is supported along with tiers for 3, 4, 5 or 10 rounds of play.</p>
+      <p>Select a number of players below to see how groups will be generated for that amount of players. This is the same seeding system as used for Pinburgh and Pinball at the Lake. Current 16 to 128 players is supported along with tiers for 3, 4, 5 or 10 rounds of play.</p>
       <form action="/" method="get" class="form-inline">
           <select name="player_count" class="form-control">
             <option value="">Number of players...</option>
             <?php
-              for ($i=64;$i>=16;$i--) {
+              for ($i=128;$i>=16;$i--) {
                 $selected = !empty($_GET['player_count']) && (int)$_GET['player_count'] === $i ? 'selected' : '';
                 print "<option {$selected} value='{$i}'>{$i} players</option>";
               }
