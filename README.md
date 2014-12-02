@@ -1,11 +1,13 @@
 # Tournament Utilities
 This is a handful of utility classes for handling group generation, seeding etc. for pinball match-play tournaments
 
-TODO: 
+TODO:
 
 * BalancedHeadToHeadPairing: Balanced pairing of head to head groups based on a seeded list of players
-* Arena/Machine randomizer: Input two or more players including how many times they've played a machine and a list of available machines. Picks the most "foreign" machine
 * Add support for up to 128 players in GroupPairing
+
+## ArenaSelector
+Pretty naive arena selector. Input an array of arenas and the amount of times each have been played and an array of available arenas (each arena must be an object that implements a `getArenaId` method). The selector will pick a random arena that hasn't been played before or failing that the least played arena of the available ones. Example in `example/ArenaSelector`.
 
 ## DanishHeadToHeadPairing
 Input an array of seeded players and it'll pair them up according to the Danish system. Seed #1 will play Seed #2, Seed #3 will play seed #4 and so on. Returns an associative array with `groups` and `byes`. The bye will always go to the last seed. Example in `example/DanishHeadToHeadPaiting`.
