@@ -1,6 +1,6 @@
 <?php namespace haugstrup\TournamentUtils;
 
-class DanishHeadToHeadPairing {
+class AdjacentPairing {
 
   public $players = array();
 
