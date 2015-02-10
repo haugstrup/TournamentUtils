@@ -21,8 +21,8 @@ Input an array of seeded players and it'll pair the strongest player with the we
 
 ## More complex pairing classes
 
-#### SingleEliminationPairing
-Will provide pairing for a single elimination bracket between 2 and 32 players. Must provide an even amount of players. Example in `example/SingleEliminationPairing`.
+#### SingleEliminationBracket
+Helper class for working with single elimination brackets. Relies on a binary heap structure as described in [http://joenoodles.com/2013/3/2013-bracket-design](http://joenoodles.com/2013/3/2013-bracket-design). Example in `example/SingleEliminationBracket`.
 
 #### HeadToHeadPairing
 A somewhat balanced head to head pairing. Takes an array of sub-groups with players and will match up players within in sub-group. Will make a naive attempt at matching players that have played each other the least. Example in `example/HeadToHeadPairing`.
