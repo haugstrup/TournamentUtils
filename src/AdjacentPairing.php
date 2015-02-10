@@ -13,7 +13,8 @@ class AdjacentPairing {
     $groups = array('groups' => array(), 'byes' => array());
 
     if (count($this->players)%2 != 0) {
-      $groups['byes'][] = array_splice($players, -1, 1);
+      $bye_slice = array_splice($players, -1, 1);
+      $groups['byes'][] = $bye_slice[0];
     }
 
     while (count($players) >= 2) {
