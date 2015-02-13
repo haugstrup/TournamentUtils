@@ -46,7 +46,7 @@ class SingleEliminationBracket {
   }
 
   public function number_of_rounds() {
-    return $this->round($this->game_count());
+    return $this->round($this->game_count())+1;
   }
 
   // Looks at winners of previous games to determine who should play
