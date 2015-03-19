@@ -1,7 +1,5 @@
 # Tournament Utilities
-This is a handful of utility classes for handling group generation, seeding etc. for pinball match-play tournaments
-
-TODO: Random group generation for group match-play. Ideally make sure three player groups are evenly distributed.
+This is a handful of utility classes for handling group generation, seeding etc. for match-play tournaments
 
 ## ArenaSelector
 Pretty naive arena selector. Input an array of arenas and the amount of times each have been played and an array of available arenas (each arena must be an object that implements a `getArenaId` method). The selector will pick a random arena that hasn't been played before or failing that the least played arena of the available ones. Example in `example/ArenaSelector`.
