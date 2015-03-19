@@ -1,6 +1,6 @@
 <?php namespace haugstrup\TournamentUtils;
 
-class GroupPairing {
+class GroupTieredSwissPairing {
 
   public $rounds = 5;
   public $players = array();

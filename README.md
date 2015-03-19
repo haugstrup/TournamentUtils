@@ -24,8 +24,11 @@ Input an array of seeded players and it'll pair the strongest player with the we
 #### SingleEliminationBracket
 Helper class for working with single elimination brackets. Relies on a binary heap structure as described in [http://joenoodles.com/2013/3/2013-bracket-design](http://joenoodles.com/2013/3/2013-bracket-design). Example in `example/SingleEliminationBracket`.
 
-#### HeadToHeadPairing
-A somewhat balanced head to head pairing. Takes an array of sub-groups with players and will match up players within in sub-group. Will make a naive attempt at matching players that have played each other the least. Example in `example/HeadToHeadPairing`.
+#### BalancedPairing
+A random-optimized player pairing for either head-to-head or group play. Given a list of players and a list of how often they have played each other it will try any number of random combinations (1000 iterations is default) and present the most balanced solution (i.e. the solution where the fewest repeat opponents are present). Example in `example/BalancedPairing`.
 
-#### GroupPairing
-Input an array of seeded players and it'll generate 4 player groups based on your seeds and a predefined map of increasingly smaller tiers (so players will be playing opponents at roughly their own level). Just like Pinburgh. Example in `example/GroupPairing` or go to [http://seeder.slapsave.com/](http://seeder.slapsave.com/)
+#### HeadToHeadSwissPairing
+A somewhat balanced head to head pairing. Takes an array of sub-groups with players and will match up players within in sub-group. Will make a naive attempt at matching players that have played each other the least. Example in `example/HeadToHeadSwissPairing`.
+
+#### GroupTieredSwissPairing
+Input an array of seeded players and it'll generate 4 player groups based on your seeds and a predefined map of increasingly smaller tiers (so players will be playing opponents at roughly their own level). Just like Pinburgh. Example in `example/GroupTieredSwissPairing` or go to [http://seeder.slapsave.com/](http://seeder.slapsave.com/)

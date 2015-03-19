@@ -35,7 +35,7 @@
       </form>
 
       <?php
-      require('../../src/GroupPairing.php');
+      require('../../src/GroupTieredSwissPairing.php');
 
       if (!empty($_GET['player_count']) && is_numeric($_GET['player_count']) && !empty($_GET['rounds']) && is_numeric($_GET['rounds'])) {
         $player_count = (int)$_GET['player_count'];
@@ -43,7 +43,7 @@
         for($i=0;$i<$player_count;$i++) {
           $players_list[] = 'Seed #'.($i+1);
         }
-        $groupBuilder = new haugstrup\TournamentUtils\GroupPairing((int)$_GET['rounds'], $players_list);
+        $groupBuilder = new haugstrup\TournamentUtils\GroupTieredSwissPairing((int)$_GET['rounds'], $players_list);
         $group_map = $groupBuilder->get_group_map();
 
         print "<hr><h2>Tier sizes for {$player_count} players (using tiers for {$group_map['key']} players)</h2>";

@@ -1,5 +1,5 @@
 <?php
-require('../../src/HeadToHeadPairing.php');
+require('../../src/HeadToHeadSwissPairing.php');
 
 // TODO: Make this into unit tests
 
@@ -17,7 +17,7 @@ $groups = array(
   )
 );
 
-$builder = new haugstrup\TournamentUtils\HeadToHeadPairing($groups);
+$builder = new haugstrup\TournamentUtils\HeadToHeadSwissPairing($groups);
 $pairings = $builder->build();
 
 print_r($pairings);

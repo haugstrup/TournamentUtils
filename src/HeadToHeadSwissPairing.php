@@ -1,6 +1,6 @@
 <?php namespace haugstrup\TournamentUtils;
 
-class HeadToHeadPairing {
+class HeadToHeadSwissPairing {
 
   public $groups = array();
   public $byes = array();
