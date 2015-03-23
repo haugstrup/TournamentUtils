@@ -20,6 +20,10 @@ class BalancedPairing {
   public function cost($solution) {
     $cost = 0;
 
+
+    // TODO: If the cost could go up when a person who has played a three player group is assigned to another three player group that would be great.
+
+
     foreach ($solution as $matchup) {
       foreach ($matchup as $id) {
 
