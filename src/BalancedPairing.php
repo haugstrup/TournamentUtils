@@ -5,12 +5,12 @@ class BalancedPairing {
   public $group_size = 2;
   public $list = array();
   public $previously_matched = array();
+  public $iterations = 1000;
 
   public function __construct($list, $previously_matched = array(), $group_size = 2) {
     $this->list = $list;
     $this->previously_matched = $previously_matched;
     $this->group_size = $group_size;
-    $this->iterations = 1000;
 
     if ($group_size !== 2 && $group_size !== 4) {
       throw new \Exception('Group size must be 2 or 4');
