@@ -10,6 +10,8 @@ for($i=0;$i<15;$i++) {
 
 $builder = new haugstrup\TournamentUtils\AdjacentPairing($players_list);
 
+$builder->group_size = 4;
+
 $groups = $builder->build();
 
 print_r($groups);
