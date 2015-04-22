@@ -28,8 +28,12 @@ class HeadToHeadSwissPairing {
         continue;
       }
 
+      $player_ids = array_keys($group);
+      shuffle($player_ids);
+
       // For each player
-      foreach ($group as $player_id => $opponents) {
+      foreach ($player_ids as $player_id) {
+        $opponents = $group[$player_id];
 
         if (in_array($player_id, $matched_players)) {
           continue;
