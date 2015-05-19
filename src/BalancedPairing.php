@@ -1,11 +1,12 @@
 <?php namespace haugstrup\TournamentUtils;
 
-class BalancedPairing {
+require_once 'RandomOptimizer.php';
+
+class BalancedPairing extends RandomOptimizer {
 
   public $group_size = 2;
   public $list = array();
   public $previously_matched = array();
-  public $iterations = 1000;
 
   public function __construct($list, $previously_matched = array(), $group_size = 2) {
     $this->list = $list;
@@ -15,6 +16,27 @@ class BalancedPairing {
     if ($group_size !== 2 && $group_size !== 4) {
       throw new \Exception('Group size must be 2 or 4');
     }
+  }
+
+  public function solution($input) {
+    $solution = array();
+
+    while (count($input) > 0) {
+      if ($this->group_size === 4 && count($input) < 10 && count($input)%4 != 0 && count($input) !== 7) {
+        $matchup = array_rand($input, 3);
+      } else if (count($input) === 1) {
+        $matchup = array_keys($input);
+      } else {
+        $matchup = array_rand($input, $this->group_size);
+      }
+
+      $solution[] = $matchup;
+      foreach ($matchup as $id) {
+        unset($input[$id]);
+      }
+    }
+
+    return $solution;
   }
 
   public function cost($solution) {
@@ -50,54 +72,20 @@ class BalancedPairing {
     $best_solution = null;
     $best_groups = null;
 
-    for($i=0;$i<$this->iterations;$i++) {
-      $available = $this->list;
-      $solution = array();
+    $result = $this->solve($this->list);
 
-      while (count($available) > 0) {
+    $groups = array();
+    foreach ($result['solution'] as $matchup) {
+      $group = array();
 
-
-        if ($this->group_size === 4 && count($available) < 10 && count($available)%4 != 0 && count($available) !== 7) {
-          $matchup = array_rand($available, 3);
-        } else if (count($available) === 1) {
-          $matchup = array_keys($available);
-        } else {
-          $matchup = array_rand($available, $this->group_size);
-        }
-
-        $solution[] = $matchup;
-        foreach ($matchup as $id) {
-          unset($available[$id]);
-        }
+      foreach ($matchup as $id) {
+        $group[] = $this->list[$id];
       }
 
-      $cost = $this->cost($solution);
-
-      if ($best === null || $cost < $best) {
-        $best = $cost;
-
-        $groups = array();
-        foreach ($solution as $matchup) {
-          $group = array();
-
-          foreach ($matchup as $id) {
-            $group[] = $this->list[$id];
-          }
-
-          $groups[] = $group;
-        }
-
-        $best_solution = $solution;
-        $best_groups = $groups;
-
-
-        if ($cost == 0) {
-          break;
-        }
-      }
+      $groups[] = $group;
     }
 
-    return array('cost' => $best, 'groups' => $best_groups);
+    return array('cost' => $result['cost'], 'groups' => $groups);
   }
 
 }
