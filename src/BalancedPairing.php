@@ -68,10 +68,6 @@ class BalancedPairing extends RandomOptimizer {
   }
 
   public function build() {
-    $best = null;
-    $best_solution = null;
-    $best_groups = null;
-
     $result = $this->solve($this->list);
 
     $groups = array();
