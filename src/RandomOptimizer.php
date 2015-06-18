@@ -14,7 +14,7 @@ class RandomOptimizer {
   }
 
   public function solve($input) {
-    $best = null;
+    $best_cost = null;
     $best_solution = null;
 
     for($i=0;$i<$this->iterations;$i++) {
@@ -22,8 +22,8 @@ class RandomOptimizer {
       $solution = $this->solution($input);
       $cost = $this->cost($solution);
 
-      if ($best === null || $cost < $best) {
-        $best = $cost;
+      if (is_null($best_cost) || $cost < $best_cost) {
+        $best_cost = $cost;
         $best_solution = $solution;
 
         if ($cost == 0) {
@@ -32,7 +32,7 @@ class RandomOptimizer {
       }
     }
 
-    return array('cost' => $best, 'solution' => $solution);
+    return array('cost' => $best_cost, 'solution' => $best_solution);
   }
 
 }

@@ -17,7 +17,7 @@ $list = array(
   13 => 'Player#13',
   14 => 'Player#14',
   15 => 'Player#15',
-  16 => 'Player#16',
+  // 16 => 'Player#16',
 );
 $previously_matched = array(
   1 => array(9, 10, 11, 12, 13),
@@ -38,7 +38,13 @@ $previously_matched = array(
   16 => array(4, 6, 10, 14, 15),
 );
 
-$builder = new haugstrup\TournamentUtils\BalancedPairing($list, $previously_matched, 4);
+$three_player_group_counts = array(
+  1 => 1,
+  2 => 1,
+  3 => 1
+);
+
+$builder = new haugstrup\TournamentUtils\BalancedPairing($list, $previously_matched, 4, $three_player_group_counts);
 $pairings = $builder->build();
 
 print_r($pairings);

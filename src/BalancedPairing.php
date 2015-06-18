@@ -7,10 +7,12 @@ class BalancedPairing extends RandomOptimizer {
   public $group_size = 2;
   public $list = array();
   public $previously_matched = array();
+  public $three_player_group_counts = array();
 
-  public function __construct($list, $previously_matched = array(), $group_size = 2) {
+  public function __construct($list, $previously_matched = array(), $group_size = 2, $three_player_group_counts = array()) {
     $this->list = $list;
     $this->previously_matched = $previously_matched;
+    $this->three_player_group_counts = $three_player_group_counts;
     $this->group_size = $group_size;
 
     if ($group_size !== 2 && $group_size !== 4) {
@@ -42,23 +44,28 @@ class BalancedPairing extends RandomOptimizer {
   public function cost($solution) {
     $cost = 0;
 
-
-    // TODO: If the cost could go up when a person who has played a three player group is assigned to another three player group that would be great.
-
-
     foreach ($solution as $matchup) {
+
       foreach ($matchup as $id) {
 
+        // Add to cost if:
+        // * Group size is 4
+        // * Current matchup has less than 4 players
+        // * Player has previously played in a three player group
+        if ($this->group_size === 4 && count($matchup) < 4 && isset($this->three_player_group_counts[$id])) {
+          $cost = $cost+($this->three_player_group_counts[$id]*15);
+        }
+
+        // Add to cost if players have been matched against each other previously
         foreach ($matchup as $match) {
           if ($id !== $match && isset($this->previously_matched[$id])) {
-
             foreach ($this->previously_matched[$id] as $c) {
               if ($c === $match) {
-                $cost++;
+                $cost = $cost+1;
               }
             }
-
           }
+
         }
 
       }
