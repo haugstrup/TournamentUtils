@@ -2,6 +2,38 @@
 
 require('../../src/SingleEliminationBracket.php');
 
+// Check first round groups
+$sizes = array(2, 4, 8, 16, 32, 64, 128);
+foreach ($sizes as $size) {
+  $bracket = new haugstrup\TournamentUtils\SingleEliminationBracket($size, array(), array());
+  $groups = $bracket->first_round_groups();
+
+  if (count($groups) !== $size/2) {
+    throw new Exception('Not correct amount of games for '.$size);
+  }
+
+  $seeds = array();
+  foreach ($groups as $group) {
+
+    if (array_sum($group) !== ($size+1)) {
+      throw new Exception('Matchup is wrong');
+    }
+
+    foreach ($group as $seed) {
+      if (in_array($seed, $seeds)) {
+        throw new Exception('Seed '.$seed.' used twice');
+      }
+
+      $seeds[] = $seed;
+    }
+  }
+
+  if (count($seeds) !== $size) {
+    throw new Exception('Not correct amount of seeds');
+  }
+
+}
+
 // Prep list of players
 $players_list = array();
 for($i=0;$i<=15;$i++) {
