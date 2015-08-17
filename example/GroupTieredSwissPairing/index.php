@@ -30,6 +30,7 @@
             <option value="4" <?php print !empty($_GET['rounds']) && (int)$_GET['rounds'] === 4 ? 'selected' : '' ?>>4 rounds</option>
             <option value="5" <?php print !empty($_GET['rounds']) && (int)$_GET['rounds'] === 5 ? 'selected' : '' ?>>5 rounds</option>
             <option value="10" <?php print !empty($_GET['rounds']) && (int)$_GET['rounds'] === 10 ? 'selected' : '' ?>>10 rounds</option>
+            <option value="13" <?php print !empty($_GET['rounds']) && (int)$_GET['rounds'] === 13 ? 'selected' : '' ?>>13 rounds</option>
           </select>
           <button type="submit" class="form-control">Go!</button>
       </form>
