@@ -22,6 +22,7 @@ class BalancedArena extends RandomOptimizer {
     // when there are more groups than arenas
     $group_keys = array_keys($input['groups']);
     shuffle($group_keys);
+    shuffle($input['available_arenas']);
 
     $arenas = array();
     for($i=0;$i<$this->amount;$i++) {
