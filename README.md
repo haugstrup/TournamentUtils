@@ -20,6 +20,9 @@ Input an array of seeded players and it'll dive the field into two halves pairin
 #### SlaughterPairing
 Input an array of seeded players and it'll pair the strongest player with the weakest player. With 14 players Seed #1 will player Seed #14, Seed #2 will play Seed #13 and so on. Returns an associative array with `groups` and `byes`. Set `group_size` to `4` to generate four-player groups. The bye will always go to the last seed. Example in `example/SlaughterPairing`.
 
+#### RoundRobinPairing
+Input an array of players and it'll provide a RoundRobin pairing where each player plays every opponent once. Set the `double` option to true for Double RoundRobing pairings where every player plays each opponent twice. Example in `example/RoundRobinPairing`.
+
 ## More complex pairing classes
 
 #### SingleEliminationBracket
