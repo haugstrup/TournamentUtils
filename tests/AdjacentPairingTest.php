@@ -12,7 +12,7 @@ class AdjacentPairingTest extends TestCase {
     $this->assertEquals(count($groups['byes']), 0);
     $this->assertEquals($groups['groups'][0], array('Seed#1', 'Seed#2'));
     $this->assertEquals($groups['groups'][1], array('Seed#3', 'Seed#4'));
-    $this->assertEquals($groups['groups'][0], array('Seed#5', 'Seed#6'));
-    $this->assertEquals($groups['groups'][1], array('Seed#7', 'Seed#8'));
+    $this->assertEquals($groups['groups'][2], array('Seed#5', 'Seed#6'));
+    $this->assertEquals($groups['groups'][3], array('Seed#7', 'Seed#8'));
   }
 }
