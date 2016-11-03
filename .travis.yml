@@ -4,4 +4,3 @@ php:
   - '7.0'
   - hhvm
   - nightly
-script: phpunit --bootstrap=tests/autoload.php tests
