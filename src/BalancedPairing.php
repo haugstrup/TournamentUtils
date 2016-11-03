@@ -28,9 +28,9 @@ class BalancedPairing extends RandomOptimizer {
       if (count($input) === 1 || count($input) === 2) {
         $matchup = array_keys($input);
       } elseif ($this->group_size === 4 && count($input) < 10 && count($input)%4 !== 0 && count($input) !== 7) {
-        $matchup = array_rand($input, 3);
+        $matchup = $this->array_rand($input, 3);
       } else {
-        $matchup = array_rand($input, $this->group_size);
+        $matchup = $this->array_rand($input, $this->group_size);
       }
 
       $solution[] = $matchup;
