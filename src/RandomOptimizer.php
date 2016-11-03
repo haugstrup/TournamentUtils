@@ -3,6 +3,16 @@
 class RandomOptimizer {
   public $iterations = 1000;
 
+  // Allows array_rand and shuffle to be stubbed out in testing.
+  public function array_rand($array, $number = 1) {
+    return array_rand($array, $number);
+  }
+
+  public function shuffle($array) {
+    shuffle($array);
+    return $array;
+  }
+
   // Implement this in your subclass
   public function cost($solution) {
     return null;
