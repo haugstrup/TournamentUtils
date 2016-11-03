@@ -1,3 +1,4 @@
 /vendor
+/coverage-report
 composer.lock
 sample-patl.xlsx
