@@ -1,6 +1,8 @@
 <?php namespace haugstrup\TournamentUtils;
 
-class RandomOptimizer {
+require_once 'Base.php';
+
+class RandomOptimizer extends Base {
   public $iterations = 1000;
 
   // Implement this in your subclass

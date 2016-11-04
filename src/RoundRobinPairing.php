@@ -1,6 +1,8 @@
 <?php namespace haugstrup\TournamentUtils;
 
-class RoundRobinPairing {
+require_once 'Base.php';
+
+class RoundRobinPairing extends Base {
 
   public $players = array();
   public $double = false;

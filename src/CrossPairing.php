@@ -1,6 +1,8 @@
 <?php namespace haugstrup\TournamentUtils;
 
-class CrossPairing {
+require_once 'Base.php';
+
+class CrossPairing extends Base {
 
   public $players = array();
 

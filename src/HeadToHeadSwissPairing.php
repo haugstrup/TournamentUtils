@@ -1,6 +1,8 @@
 <?php namespace haugstrup\TournamentUtils;
 
-class HeadToHeadSwissPairing {
+require_once 'Base.php';
+
+class HeadToHeadSwissPairing extends Base {
 
   public $groups = array();
   public $byes = array();
@@ -29,7 +31,7 @@ class HeadToHeadSwissPairing {
       }
 
       $player_ids = array_keys($group);
-      shuffle($player_ids);
+      $this->shuffle($player_ids);
 
       // For each player
       foreach ($player_ids as $player_id) {
@@ -52,7 +54,7 @@ class HeadToHeadSwissPairing {
         // Go through opponent groups, pick first available player
         foreach ($available_opponents as $opponent_group) {
           if (count($opponent_group) > 0) {
-            $random_opponent = $opponent_group[array_rand($opponent_group, 1)];
+            $random_opponent = $opponent_group[$this->array_rand($opponent_group, 1)];
 
             $pairings[] = array($player_id, $random_opponent);
             $matched_players[] = $player_id;

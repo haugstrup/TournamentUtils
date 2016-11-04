@@ -1,6 +1,8 @@
 <?php namespace haugstrup\TournamentUtils;
 
-class SingleEliminationBracket {
+require_once 'Base.php';
+
+class SingleEliminationBracket extends Base {
 
   // This class relies on a binary heap as described on: http://joenoodles.com/2013/3/2013-bracket-design
 

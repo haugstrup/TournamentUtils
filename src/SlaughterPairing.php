@@ -1,6 +1,8 @@
 <?php namespace haugstrup\TournamentUtils;
 
-class SlaughterPairing {
+require_once 'Base.php';
+
+class SlaughterPairing extends Base {
 
   public $players = array();
   public $group_size = 2;

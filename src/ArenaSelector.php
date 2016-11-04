@@ -1,6 +1,8 @@
 <?php namespace haugstrup\TournamentUtils;
 
-class ArenaSelector {
+require_once 'Base.php';
+
+class ArenaSelector extends Base {
 
   public $arena_counts = array();
   public $available_arenas = array();
@@ -30,7 +32,7 @@ class ArenaSelector {
       }
     }
     if ($unplayed) {
-      return $unplayed[array_rand($unplayed, 1)];
+      return $unplayed[$this->array_rand($unplayed, 1)];
     }
 
     // Look through played arenas to see if any are available
@@ -46,7 +48,7 @@ class ArenaSelector {
         }
       }
       if ($available) {
-        return $available[array_rand($available, 1)];
+        return $available[$this->array_rand($available, 1)];
       }
     }
 

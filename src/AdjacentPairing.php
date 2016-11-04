@@ -1,6 +1,8 @@
 <?php namespace haugstrup\TournamentUtils;
 
-class AdjacentPairing {
+require_once 'Base.php';
+
+class AdjacentPairing extends Base {
 
   public $players = array();
   public $group_size = 2;
