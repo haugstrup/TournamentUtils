@@ -20,11 +20,11 @@ $list = array(
   // 16 => 'Player#16',
 );
 $previously_matched = array(
-  1 => array(9, 10, 11, 12, 13),
-  2 => array(3, 4, 5, 6, 7),
-  3 => array(2, 4, 5, 6, 7),
-  4 => array(2, 3, 8, 13, 16),
-  5 => array(2, 3, 6, 14, 15),
+  1 => array(9, 10, 11, 12, 13, 2, 3, 4, 5, 6),
+  2 => array(3, 4, 5, 6, 7, 1, 3, 4, 5, 6),
+  3 => array(2, 4, 5, 6, 7, 1),
+  4 => array(2, 3, 8, 13, 16, 1, 2, 3, 4, 5, 6),
+  5 => array(2, 3, 6, 14, 15, 1, 4, 5, 6, 7, 8),
   6 => array(2, 3, 5, 14, 16),
   7 => array(2, 3, 8, 10, 12),
   8 => array(4, 7, 9, 12, 15),
@@ -39,9 +39,9 @@ $previously_matched = array(
 );
 
 $three_player_group_counts = array(
-  1 => 1,
-  2 => 1,
-  3 => 1
+  1 => 3,
+  2 => 2,
+  3 => 2
 );
 
 $builder = new haugstrup\TournamentUtils\BalancedPairing($list, $previously_matched, 4, $three_player_group_counts);

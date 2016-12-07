@@ -75,7 +75,7 @@ class BalancedArena extends RandomOptimizer {
         if (isset($this->arena_plays[$player_id])) {
           foreach ($item['arenas'] as $arena) {
             if (isset($this->arena_plays[$player_id][$arena])) {
-              $cost = $cost+$this->arena_plays[$player_id][$arena];
+              $cost = $cost+pow($this->arena_plays[$player_id][$arena], 2);
             }
           }
         }

@@ -32,7 +32,7 @@ class BalancedPlayerOrder extends RandomOptimizer {
 
     foreach ($solution as $player => $pos) {
       if (isset($this->player_order_counts[$player]) && isset($this->player_order_counts[$player][$pos])) {
-        $cost = $cost + $this->player_order_counts[$player][$pos];
+        $cost = $cost + pow($this->player_order_counts[$player][$pos], 2);
       }
     }
 
