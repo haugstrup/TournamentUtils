@@ -17,7 +17,7 @@ class BalancedPlayerOrder extends RandomOptimizer {
     // Give each player a random position
     $positions = array(0, 1, 2, 3);
     $positions = array_slice($positions, 0, count($input['players']));
-    $this->shuffle($positions);
+    $positions = $this->shuffle($positions);
 
     foreach ($input['players'] as $player) {
       $solution[$player] = array_pop($positions);

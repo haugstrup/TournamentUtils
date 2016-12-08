@@ -31,7 +31,7 @@ class HeadToHeadSwissPairing extends Base {
       }
 
       $player_ids = array_keys($group);
-      $this->shuffle($player_ids);
+      $player_ids = $this->shuffle($player_ids);
 
       // For each player
       foreach ($player_ids as $player_id) {

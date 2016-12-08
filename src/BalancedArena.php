@@ -21,8 +21,8 @@ class BalancedArena extends RandomOptimizer {
     // Shuffle groups so random groups get arena assigned
     // when there are more groups than arenas
     $group_keys = array_keys($input['groups']);
-    $this->shuffle($group_keys);
-    $this->shuffle($input['available_arenas']);
+    $group_keys = $this->shuffle($group_keys);
+    $input['available_arenas'] = $this->shuffle($input['available_arenas']);
 
     $arenas = array();
     for($i=0;$i<$this->amount;$i++) {
