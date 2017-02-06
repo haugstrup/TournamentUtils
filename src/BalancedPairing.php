@@ -54,7 +54,7 @@ class BalancedPairing extends RandomOptimizer {
         // * Current matchup has less than 4 players
         // * Player has previously played in a three player group
         if ($this->group_size === 4 && count($matchup) < 4 && isset($this->three_player_group_counts[$id])) {
-          $cost = $cost+pow($this->three_player_group_counts[$id], 4);
+          $cost = $cost+pow($this->three_player_group_counts[$id]+12, 2);
         }
 
         // Add to cost if players have been matched against each other previously
