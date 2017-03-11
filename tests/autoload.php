@@ -12,3 +12,4 @@ require_once 'src/RandomOptimizer.php';
 require_once 'src/RoundRobinPairing.php';
 require_once 'src/SingleEliminationBracket.php';
 require_once 'src/SlaughterPairing.php';
+require_once 'src/WCSGroups.php';
