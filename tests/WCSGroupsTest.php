@@ -95,10 +95,10 @@ class WCSGroupsTest extends TestCase {
         $builder = new haugstrup\TournamentUtils\WCSGroups($players, 4);
         $groups = $builder->build();
 
-        $this->assertEquals(array('Seed#1', 'Seed#8', 'Seed#12', 'Seed#16', 'Seed#17'), $groups[0]);
-        $this->assertEquals(array('Seed#2', 'Seed#7', 'Seed#11', 'Seed#15', 'Seed#18'), $groups[1]);
-        $this->assertEquals(array('Seed#3', 'Seed#6', 'Seed#10', 'Seed#14', 'Seed#19'), $groups[2]);
-        $this->assertEquals(array('Seed#4', 'Seed#5', 'Seed#9', 'Seed#13'), $groups[3]);
+        $this->assertEquals(array('Seed#1', 'Seed#8', 'Seed#12', 'Seed#16'), $groups[0]);
+        $this->assertEquals(array('Seed#2', 'Seed#7', 'Seed#11', 'Seed#15', 'Seed#19'), $groups[1]);
+        $this->assertEquals(array('Seed#3', 'Seed#6', 'Seed#10', 'Seed#14', 'Seed#18'), $groups[2]);
+        $this->assertEquals(array('Seed#4', 'Seed#5', 'Seed#9', 'Seed#13', 'Seed#17'), $groups[3]);
     }
 
     public function testNoPlayers() {

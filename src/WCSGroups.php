@@ -39,14 +39,17 @@ class WCSGroups extends Base {
       $groups[] = $group_players;
     }
 
-    // Place extras evenly
-    $i = 0;
-    foreach ($extras as $player) {
-      $groups[$i][] = $player;
-      $i++;
-      if (!isset($groups[$i])) $i=0;
+    // Place extras evenly, from the bottom
+    if ($extras) {
+      $groups = array_reverse($groups);
+      $i = 0;
+      foreach ($extras as $player) {
+        $groups[$i][] = $player;
+        $i++;
+        if (!isset($groups[$i])) $i=0;
+      }
+      $groups = array_reverse($groups);
     }
-
 
     return $groups;
   }
