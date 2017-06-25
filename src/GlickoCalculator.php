@@ -210,8 +210,13 @@ class GlickoCalculator {
 
     // Step 2. Calculate new rating & RD for players
     foreach ($this->players as $id => $player) {
-      $this->players[$id]['new_rd'] = $this->calculateNewRDForPlayer($id);
-      $this->players[$id]['new_rating'] = $this->calculateNewRatingForPlayer($id, $this->players[$id]['new_rd']);
+      if (isset($this->results[$id])) {
+        $this->players[$id]['new_rd'] = $this->calculateNewRDForPlayer($id);
+        $this->players[$id]['new_rating'] = $this->calculateNewRatingForPlayer($id, $this->players[$id]['new_rd']);
+      } else{
+        $this->players[$id]['new_rd'] = $this->players[$id]['rd'];
+        $this->players[$id]['new_rating'] = $this->players[$id]['rating'];
+      }
     }
 
     return $this->players;
