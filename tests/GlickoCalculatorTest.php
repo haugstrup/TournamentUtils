@@ -25,8 +25,20 @@ class GlickoCalculatorTest extends TestCase {
     $calculator->addResult([1, 2]);
 
     $result = [
-      1 => [['outcome' => 1, 'opponent' => 2]],
-      2 => [['outcome' => 0, 'opponent' => 1]],
+      1 => [['outcome' => 1, 'opponent' => 2, 'adjustment' => null]],
+      2 => [['outcome' => 0, 'opponent' => 1, 'adjustment' => null]],
+    ];
+
+    $this->assertEquals($result, $calculator->getResults());
+  }
+
+  public function testAddsResultWithGroupSize() {
+    $calculator = new haugstrup\TournamentUtils\GlickoCalculator();
+    $calculator->addResult([1, 2], 4);
+
+    $result = [
+      1 => [['outcome' => 1, 'opponent' => 2, 'adjustment' => 1.7320508075688772]],
+      2 => [['outcome' => 0, 'opponent' => 1, 'adjustment' => 1.7320508075688772]],
     ];
 
     $this->assertEquals($result, $calculator->getResults());
@@ -79,6 +91,30 @@ class GlickoCalculatorTest extends TestCase {
         ['outcome' => 0, 'opponent' => 2, 'adjustment' => 1.7320508075688772],
         ['outcome' => 0, 'opponent' => 3, 'adjustment' => 1.7320508075688772],
       ],
+    ];
+
+    $this->assertEquals($result, $calculator->getResults());
+  }
+
+  public function testAddsDrawResult() {
+    $calculator = new haugstrup\TournamentUtils\GlickoCalculator();
+    $calculator->addDraw([1, 2]);
+
+    $result = [
+      1 => [['outcome' => 0.5, 'opponent' => 2, 'adjustment' => null]],
+      2 => [['outcome' => 0.5, 'opponent' => 1, 'adjustment' => null]],
+    ];
+
+    $this->assertEquals($result, $calculator->getResults());
+  }
+
+  public function testAddsDrawResultWithGroupSize() {
+    $calculator = new haugstrup\TournamentUtils\GlickoCalculator();
+    $calculator->addDraw([1, 2], 3);
+
+    $result = [
+      1 => [['outcome' => 0.5, 'opponent' => 2, 'adjustment' => 1.4142135623730951]],
+      2 => [['outcome' => 0.5, 'opponent' => 1, 'adjustment' => 1.4142135623730951]],
     ];
 
     $this->assertEquals($result, $calculator->getResults());

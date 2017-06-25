@@ -77,22 +77,30 @@ class GlickoCalculator {
    * Add result to calculator.
    *
    * @param array $result - Player IDs in order of finishing position
+   * @param [integer] $group_size - Optional, size of group that played game
    * @return void
    */
-  public function addResult($result = []) {
+  public function addResult($result = [], $group_size = null) {
     if (count($result) < 2) return;
+
+    $group_size = $group_size ? $group_size : count($result);
+    $adjustment = null;
+    if ($group_size > 2) {
+      $adjustment = sqrt($group_size-1);
+    }
 
     if (count($result) === 2) {
       $this->results[$result[0]][] = [
         'outcome' => 1,
         'opponent' => $result[1],
+        'adjustment' => $adjustment,
       ];
       $this->results[$result[1]][] = [
         'outcome' => 0,
         'opponent' => $result[0],
+        'adjustment' => $adjustment,
       ];
     } else {
-      $adjustment = sqrt(count($result)-1);
       $handled_players = [];
       foreach ($result as $i => $player) {
         foreach ($result as $j => $current_player) {
@@ -113,6 +121,27 @@ class GlickoCalculator {
         $handled_players[] = $player;
       }
     }
+  }
+
+  public function addDraw($result = [], $group_size = null) {
+      if (count($result) < 2) return;
+
+      $group_size = $group_size ? $group_size : count($result);
+      $adjustment = null;
+      if ($group_size > 2) {
+        $adjustment = sqrt($group_size-1);
+      }
+
+      $this->results[$result[0]][] = [
+        'outcome' => 0.5,
+        'opponent' => $result[1],
+        'adjustment' => $adjustment,
+      ];
+      $this->results[$result[1]][] = [
+        'outcome' => 0.5,
+        'opponent' => $result[0],
+        'adjustment' => $adjustment,
+      ];
   }
 
   /**
@@ -156,7 +185,7 @@ class GlickoCalculator {
       $g = GlickoCalculator::g($this->players[$result['opponent']]['rd']);
       $e = GlickoCalculator::E($this->players[$player]['rating'], $this->players[$result['opponent']]['rating'], $this->players[$result['opponent']]['rd']);
 
-      if (empty($result['adjustment'])) {
+      if (!$result['adjustment']) {
         $sigma += $g * $g * $e * (1 - $e);
       } else {
         $sigma += ($g * $g * $e * (1 - $e))/$result['adjustment'];
