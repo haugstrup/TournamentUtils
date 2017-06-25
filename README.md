@@ -7,6 +7,9 @@ Pretty naive arena selector. Input an array of arenas and the amount of times ea
 ## BalancedArena
 A random-optimized arena pairing. Given a list of player pairings and a list of how often they have played each arena it will try any number of random combinations (1000 iterations is default) and present the most balanced selection of arenas (i.e. players are playing arenas they have played the least). You can also specify how many arenas to pick for each group. Example in `example/BalancedArena`.
 
+## GlickCalculator
+A calculator for the original Glicko rating algorithm. See [http://glicko.net/glicko/glicko.pdf](http://glicko.net/glicko/glicko.pdf) for details.
+
 ## Simple pairing classes
 
 See detailed descriptions of these pairing systems at: [http://senseis.xmp.net/?GroupPairing](http://senseis.xmp.net/?GroupPairing)
