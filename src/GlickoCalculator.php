@@ -77,28 +77,34 @@ class GlickoCalculator {
    * Add result to calculator.
    *
    * @param array $result - Player IDs in order of finishing position
-   * @param [integer] $group_size - Optional, size of group that played game
+   * @param [integer] $group_size_winner - Optional, size of group size to use for winner
+   * @param [integer] $group_size_loser - Optional, size of group size to use for loser
    * @return void
    */
-  public function addResult($result = [], $group_size = null) {
+  public function addResult($result = [], $group_size_winner = null, $group_size_loser = null) {
     if (count($result) < 2) return;
 
-    $group_size = $group_size ? $group_size : count($result);
-    $adjustment = null;
-    if ($group_size > 2) {
-      $adjustment = sqrt($group_size-1);
+    $group_size_winner = $group_size_winner ? $group_size_winner : count($result);
+    $group_size_loser = $group_size_loser ? $group_size_loser : count($result);
+    $adjustment_winner = null;
+    $adjustment_loser = null;
+    if ($group_size_winner > 2) {
+      $adjustment_winner = sqrt($group_size_winner-1);
+    }
+    if ($group_size_loser > 2) {
+      $adjustment_loser = sqrt($group_size_loser-1);
     }
 
     if (count($result) === 2) {
       $this->results[$result[0]][] = [
         'outcome' => 1,
         'opponent' => $result[1],
-        'adjustment' => $adjustment,
+        'adjustment' => $adjustment_winner,
       ];
       $this->results[$result[1]][] = [
         'outcome' => 0,
         'opponent' => $result[0],
-        'adjustment' => $adjustment,
+        'adjustment' => $adjustment_loser,
       ];
     } else {
       $handled_players = [];
@@ -110,12 +116,12 @@ class GlickoCalculator {
           $this->results[$player][] = [
             'outcome' => $i < $j ? 1 : 0,
             'opponent' => $current_player,
-            'adjustment' => $adjustment,
+            'adjustment' => $adjustment_winner,
           ];
           $this->results[$current_player][] = [
             'outcome' => $j < $i ? 1 : 0,
             'opponent' => $player,
-            'adjustment' => $adjustment,
+            'adjustment' => $adjustment_loser,
           ];
         }
         $handled_players[] = $player;

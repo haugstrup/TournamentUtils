@@ -34,7 +34,7 @@ class GlickoCalculatorTest extends TestCase {
 
   public function testAddsResultWithGroupSize() {
     $calculator = new haugstrup\TournamentUtils\GlickoCalculator();
-    $calculator->addResult([1, 2], 4);
+    $calculator->addResult([1, 2], 4, 4);
 
     $result = [
       1 => [['outcome' => 1, 'opponent' => 2, 'adjustment' => 1.7320508075688772]],
