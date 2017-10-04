@@ -46,6 +46,22 @@ class GlickoCalculator {
   }
 
   /**
+   * Calculate the expected chance that a player will beat a given opponent
+   *
+   * @param float $rating
+   * @param float $rd
+   * @param float $opponent_rating
+   * @param float $opponent_rd
+   * @return float
+   */
+  static function expectedOutcome($rating, $rd, $opponent_rating, $opponent_rd) {
+    $g_input = sqrt(($rd*$rd) + ($opponent_rd*$opponent_rd));
+    $g = GlickoCalculator::g($g_input);
+
+    return round(1/(1+pow(10,($g*($opponent_rating - $rating)/400))), 3);
+  }
+
+  /**
    * Create new calculator
    *
    * @param integer $default_rating

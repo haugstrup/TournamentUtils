@@ -11,6 +11,10 @@ class GlickoCalculatorTest extends TestCase {
     $this->assertEquals(0.6395, round(haugstrup\TournamentUtils\GlickoCalculator::E(1500, 1400, 30), 4));
   }
 
+  public function testCalculatesExpectedOutcome() {
+    $this->assertEquals(0.376, round(haugstrup\TournamentUtils\GlickoCalculator::expectedOutcome(1400, 80, 1500, 150), 3));
+  }
+
   public function testAdvancesRD() {
     $calculator = new haugstrup\TournamentUtils\GlickoCalculator();
     $this->assertEquals(33.2207, round($calculator->advanceRD(30), 4));
