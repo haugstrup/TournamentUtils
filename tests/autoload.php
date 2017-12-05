@@ -7,6 +7,8 @@ require_once 'src/BalancedPairing.php';
 require_once 'src/BalancedPlayerOrder.php';
 require_once 'src/CrossPairing.php';
 require_once 'src/GlickoCalculator.php';
+require_once 'src/DoubleEliminationBracket.php';
+require_once 'src/DoubleEliminationLoserBracket.php';
 require_once 'src/GroupTieredSwissPairing.php';
 require_once 'src/HeadToHeadSwissPairing.php';
 require_once 'src/RandomOptimizer.php';
