@@ -12,20 +12,22 @@ class HeadToHeadSwissPairingTest extends TestCase {
    * - No duplicate players in groups.
    */
   private function checkResults($count, $pairings) {
-    $player_count = 0;
+    $players = array();
     $this->assertEquals($count % 2, count($pairings['byes']));
     if ($count % 2) {
-    	$player_count++;
+      if (!isset($players[$pairings['byes'][0]])) $players[$pairings['byes'][0]] = 0;
+    	$players[$pairings['byes'][0]]++;
     }
     $this->assertEquals(floor($count / 2), count($pairings['groups']));
     foreach ($pairings['groups'] as $group) {
       $this->assertEquals(2, count($group));
       foreach ($group as $player_id) {
-        $player_count++;
+        if (!isset($players[$player_id])) $players[$player_id] = 0;
+        $players[$player_id]++;
       }
     }
 
-    $this->assertEquals($count, $player_count);
+    $this->assertEquals($count, array_sum($players));
   }
 
   // No one should get a bye if there's an even number of players.
