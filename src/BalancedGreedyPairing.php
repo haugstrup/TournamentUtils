@@ -2,7 +2,7 @@
 
 require_once 'RandomOptimizer.php';
 
-class BalancedPairing extends RandomOptimizer {
+class BalancedGreedyPairing extends RandomOptimizer {
 
   public $group_size = 2;
   public $list = array();
@@ -10,6 +10,7 @@ class BalancedPairing extends RandomOptimizer {
   public $three_player_group_counts = array();
 
   public function __construct($list, $previously_matched = array(), $group_size = 2, $three_player_group_counts = array()) {
+    $this->iterations = 100;
     $this->list = $list;
     $this->previously_matched = $previously_matched;
     $this->three_player_group_counts = $three_player_group_counts;
@@ -23,70 +24,155 @@ class BalancedPairing extends RandomOptimizer {
   public function solution($input) {
     $solution = array();
 
-    // Shuffle $input
+    // Shuffle players
+    $ids = array_keys($input);
+    shuffle($ids);
+    $player_count = count($ids);
+
+    // Find number of three player groups needed
+    $num_of_three_player_groups = 0;
+    if ($this->group_size === 4) {
+      $num_of_three_player_groups = 4 - ($player_count%4);
+      if ($num_of_three_player_groups === 4) {
+        $num_of_three_player_groups = 0;
+      }
+    }
+
     // Generate array of empty groups
-    // For each player in $input add them to the group that adds the least cost
-    // * Stop as soon as a zero-cost group is found
-    // * Three player group repeats should cost more
-    // * Multiple repeats should be exponential cost (second repeat: 4 (2^2))
-    // Store cost number for each group on the group object. That way $this->cost() doesn't have to repeat the cost logic
+    $solution = [];
+    if ($this->group_size === 4 && $player_count%4 > 0 && $player_count < 12) {
+      // Smaller player counts are special
+      if ($player_count === 5) {
+        $solution = [
+          ['size' => 2, 'players' => [], 'cost' => 0],
+          ['size' => 3, 'players' => [], 'cost' => 0],
+        ];
+      } elseif ($player_count === 6) {
+        $solution = [
+          ['size' => 3, 'players' => [], 'cost' => 0],
+          ['size' => 3, 'players' => [], 'cost' => 0],
+        ];
+      } elseif ($player_count === 7) {
+        $solution = [
+          ['size' => 3, 'players' => [], 'cost' => 0],
+          ['size' => 4, 'players' => [], 'cost' => 0],
+        ];
+      } elseif ($player_count === 9) {
+        $solution = [
+          ['size' => 3, 'players' => [], 'cost' => 0],
+          ['size' => 3, 'players' => [], 'cost' => 0],
+          ['size' => 3, 'players' => [], 'cost' => 0],
+        ];
+      } elseif ($player_count === 10) {
+        $solution = [
+          ['size' => 3, 'players' => [], 'cost' => 0],
+          ['size' => 3, 'players' => [], 'cost' => 0],
+          ['size' => 4, 'players' => [], 'cost' => 0],
+        ];
+      } elseif ($player_count === 11) {
+        $solution = [
+          ['size' => 3, 'players' => [], 'cost' => 0],
+          ['size' => 4, 'players' => [], 'cost' => 0],
+          ['size' => 4, 'players' => [], 'cost' => 0],
+        ];
+      }
+    } else {
+      for ($i = 0; $i < ceil($player_count/$this->group_size); $i++) {
+        $size = ($i < $num_of_three_player_groups) ? 3 : $this->group_size;
 
+        // Two player groups with odd number of players, first group should only have one player
+        if ($this->group_size === 2 && $player_count%2 > 0 && $i === 0) {
+          $size = 1;
+        }
 
+        $solution[] = [
+          'size' => $size,
+          'players' => [],
+          'cost' => 0,
+        ];
+      }
+    }
 
+    foreach ($ids as $id) {
+      $best_cost = 0;
+      $best_cost_delta = 0;
+      $best_group = null;
 
+      foreach ($solution as $group_id => $group) {
+        // Only consider group if there's still room left
+        if (count($group['players']) >= $group['size']) continue;
 
+        // Calculate added cost if player is placed in group
+        $is_three_player_group = $this->group_size === 4 && ($group['size'] === 3 || $group['size'] === 2);
+        $current_cost = $this->cost_for_players(array_merge($group['players'], [$id]), $is_three_player_group);
+        $current_cost_delta = $current_cost - $group['cost'];
 
-    while (count($input) > 0) {
+        // If this is the first group or the cost delta is better, select as "best"group
+        if ($best_group === null || $current_cost_delta <= $best_cost_delta) {
+          $best_group = $group_id;
+          $best_cost = $current_cost;
+          $best_cost_delta = $current_cost_delta;
 
-      if (count($input) === 1 || count($input) === 2) {
-        $matchup = array_keys($input);
-      } elseif ($this->group_size === 4 && count($input) < 10 && count($input)%4 !== 0 && count($input) !== 7) {
-        $matchup = $this->array_rand($input, 3);
-      } else {
-        $matchup = $this->array_rand($input, $this->group_size);
+          // If the current cost is zero, no need to look at more groups
+          // No other group can do better
+          if ($current_cost === 0) {
+            break;
+          }
+        }
       }
 
-      $solution[] = $matchup;
-      foreach ($matchup as $id) {
-        unset($input[$id]);
-      }
+      $solution[$best_group]['players'][] = $id;
+      $solution[$best_group]['cost'] = $best_cost;
     }
 
     return $solution;
   }
 
-  public function cost($solution) {
+  /**
+   * Calculate cost for a single group of players
+   *
+   * @param array $players - Array of player ids
+   * @param boolean $three_player_group - true is this is a three player group
+   * @return void
+   */
+  public function cost_for_players($players, $three_player_group = false) {
     $cost = 0;
 
-    foreach ($solution as $matchup) {
-
-      foreach ($matchup as $id) {
-
-        // Add to cost if:
-        // * Group size is 4
-        // * Current matchup has less than 4 players
-        // * Player has previously played in a three player group
-        if ($this->group_size === 4 && count($matchup) < 4 && isset($this->three_player_group_counts[$id])) {
-          $cost = $cost+pow($this->three_player_group_counts[$id]+12, 2);
+    // Add three player group costs
+    if ($three_player_group) {
+      foreach ($players as $id) {
+        if (isset($this->three_player_group_counts[$id])) {
+          // Three player group cost should be twice as bad as a repeated opponent
+          $cost += pow($this->three_player_group_counts[$id]*2, 2);
         }
-
-        // Add to cost if players have been matched against each other previously
-        foreach ($matchup as $match) {
-          if ($id !== $match && isset($this->previously_matched[$id])) {
-            $added_cost = 0;
-            foreach ($this->previously_matched[$id] as $c) {
-              if ($c === $match) {
-                $added_cost++;
-              }
-            }
-            $cost = $cost+pow($added_cost, 2);
-          }
-
-        }
-
       }
     }
 
+    // Add repeat opponent costs
+    $handled_players = [];
+    foreach ($players as $id) {
+      $opponent_counts = [];
+      if (isset($this->previously_matched[$id])) {
+        $opponent_counts = array_count_values($this->previously_matched[$id]);
+      }
+      foreach ($players as $inner_id) {
+        if ($id === $inner_id) continue;
+        if (in_array($inner_id, $handled_players)) continue;
+
+        if (array_key_exists($inner_id, $opponent_counts)) {
+          $cost += pow($opponent_counts[$inner_id], 2);
+        }
+      }
+      $handled_players[] = $id;
+    }
+    return $cost;
+  }
+
+  public function cost($solution) {
+    $cost = 0;
+    foreach ($solution as $group) {
+      $cost += $group['cost'];
+    }
     return $cost;
   }
 
@@ -97,7 +183,7 @@ class BalancedPairing extends RandomOptimizer {
     foreach ($result['solution'] as $matchup) {
       $group = array();
 
-      foreach ($matchup as $id) {
+      foreach ($matchup['players'] as $id) {
         $group[] = $this->list[$id];
       }
 
