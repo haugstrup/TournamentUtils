@@ -40,42 +40,40 @@ class BalancedGreedyPairing extends RandomOptimizer {
 
     // Generate array of empty groups
     $solution = [];
-    if ($this->group_size === 4 && $player_count%4 > 0 && $player_count < 12) {
-      // Smaller player counts are special
-      if ($player_count === 5) {
-        $solution = [
-          ['size' => 2, 'players' => [], 'cost' => 0],
-          ['size' => 3, 'players' => [], 'cost' => 0],
-        ];
-      } elseif ($player_count === 6) {
-        $solution = [
-          ['size' => 3, 'players' => [], 'cost' => 0],
-          ['size' => 3, 'players' => [], 'cost' => 0],
-        ];
-      } elseif ($player_count === 7) {
-        $solution = [
-          ['size' => 3, 'players' => [], 'cost' => 0],
-          ['size' => 4, 'players' => [], 'cost' => 0],
-        ];
-      } elseif ($player_count === 9) {
-        $solution = [
-          ['size' => 3, 'players' => [], 'cost' => 0],
-          ['size' => 3, 'players' => [], 'cost' => 0],
-          ['size' => 3, 'players' => [], 'cost' => 0],
-        ];
-      } elseif ($player_count === 10) {
-        $solution = [
-          ['size' => 3, 'players' => [], 'cost' => 0],
-          ['size' => 3, 'players' => [], 'cost' => 0],
-          ['size' => 4, 'players' => [], 'cost' => 0],
-        ];
-      } elseif ($player_count === 11) {
-        $solution = [
-          ['size' => 3, 'players' => [], 'cost' => 0],
-          ['size' => 4, 'players' => [], 'cost' => 0],
-          ['size' => 4, 'players' => [], 'cost' => 0],
-        ];
-      }
+    // Smaller player counts are special
+    if ($this->group_size === 4 && $player_count === 5) {
+      $solution = [
+        ['size' => 2, 'players' => [], 'cost' => 0],
+        ['size' => 3, 'players' => [], 'cost' => 0],
+      ];
+    } elseif ($this->group_size === 4 && $player_count === 6) {
+      $solution = [
+        ['size' => 3, 'players' => [], 'cost' => 0],
+        ['size' => 3, 'players' => [], 'cost' => 0],
+      ];
+    } elseif ($this->group_size === 4 && $player_count === 7) {
+      $solution = [
+        ['size' => 3, 'players' => [], 'cost' => 0],
+        ['size' => 4, 'players' => [], 'cost' => 0],
+      ];
+    } elseif ($this->group_size === 4 && $player_count === 9) {
+      $solution = [
+        ['size' => 3, 'players' => [], 'cost' => 0],
+        ['size' => 3, 'players' => [], 'cost' => 0],
+        ['size' => 3, 'players' => [], 'cost' => 0],
+      ];
+    } elseif ($this->group_size === 4 && $player_count === 10) {
+      $solution = [
+        ['size' => 3, 'players' => [], 'cost' => 0],
+        ['size' => 3, 'players' => [], 'cost' => 0],
+        ['size' => 4, 'players' => [], 'cost' => 0],
+      ];
+    } elseif ($this->group_size === 4 && $player_count === 11) {
+      $solution = [
+        ['size' => 3, 'players' => [], 'cost' => 0],
+        ['size' => 4, 'players' => [], 'cost' => 0],
+        ['size' => 4, 'players' => [], 'cost' => 0],
+      ];
     } else {
       for ($i = 0; $i < ceil($player_count/$this->group_size); $i++) {
         $size = ($i < $num_of_three_player_groups) ? 3 : $this->group_size;
