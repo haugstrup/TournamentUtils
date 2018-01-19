@@ -4,6 +4,7 @@ require_once 'src/AdjacentPairing.php';
 require_once 'src/ArenaSelector.php';
 require_once 'src/BalancedArena.php';
 require_once 'src/BalancedPairing.php';
+require_once 'src/BalancedGreedyPairing.php';
 require_once 'src/BalancedPlayerOrder.php';
 require_once 'src/CrossPairing.php';
 require_once 'src/GlickoCalculator.php';
