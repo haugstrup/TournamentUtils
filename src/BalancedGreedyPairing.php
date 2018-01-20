@@ -188,6 +188,8 @@ class BalancedGreedyPairing extends RandomOptimizer {
       $groups[] = $group;
     }
 
+    // Reverse groups here so three-player groups are placed at the end
+    $groups = array_reverse($groups);
     return array('cost' => $result['cost'], 'groups' => $groups);
   }
 

@@ -239,6 +239,20 @@ class BalancedGreedyPairingTest extends TestCase {
         }
     }
 
+    public function testPlacesThreePlayerGroupsAtEnd() {
+        $players = [];
+        for($i=0;$i<17;$i++) {
+            $players[] = 'Seed#'.($i+1);
+        }
+        $builder = new haugstrup\TournamentUtils\BalancedGreedyPairing($players, [], 4, []);
+        $groups = $builder->build();
+        $current_size = 4;
+        foreach ($groups['groups'] as $group) {
+            $this->assertLessThanOrEqual($current_size, count($group));
+            $current_size = count($group);
+        }
+    }
+
     public function testCalculatesCostWithNoPreviousMatches() {
         $players = [];
         for($i=0;$i<20;$i++) {
