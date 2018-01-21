@@ -298,6 +298,23 @@ class BalancedGreedyPairingTest extends TestCase {
         $this->assertEquals(10, $cost);
     }
 
+    public function testCalculatesCostWithOtherPreviouslyMatchedOpponents() {
+        $players = [];
+        for($i=0;$i<20;$i++) {
+            $players[] = 'Seed#'.($i+1);
+        }
+
+        $previously_matched = [
+            0 => [1, 2, 1, 4, 4], // Faced opponents not being matched here
+            1 => [0, 2, 0, 2, 5],
+            2 => [0, 1, 1],
+            3 => [4, 4, 5, 5], // Hasn't faced 0, 1, 2 so these opponents won't add to cost
+        ];
+        $builder = new haugstrup\TournamentUtils\BalancedGreedyPairing($players, $previously_matched, 4, []);
+        $cost = $builder->cost_for_players(array_keys(array_slice($players, 0, 4)), false);
+        $this->assertEquals(12, $cost);
+    }
+
     public function testCalculatesCostWithThreePlayerMatches() {
         $players = [];
         for($i=0;$i<20;$i++) {
@@ -317,11 +334,11 @@ class BalancedGreedyPairingTest extends TestCase {
         // Has three player matches array, but this isn't a three player group
         $builder = new haugstrup\TournamentUtils\BalancedGreedyPairing($players, $previously_matched, 4, $three_player_matches);
         $cost = $builder->cost_for_players(array_keys(array_slice($players, 0, 3)), false);
-        $this->assertEquals($cost, 9);
+        $this->assertEquals(10, $cost);
         // Actual three player group
         $builder = new haugstrup\TournamentUtils\BalancedGreedyPairing($players, $previously_matched, 4, $three_player_matches);
         $cost = $builder->cost_for_players(array_keys(array_slice($players, 0, 3)), true);
-        $this->assertEquals(29, $cost);
+        $this->assertEquals(30, $cost);
     }
 
     public function testSolutionCalculatesCost() {
@@ -362,7 +379,7 @@ class BalancedGreedyPairingTest extends TestCase {
         $builder = new haugstrup\TournamentUtils\BalancedGreedyPairing($players, $previously_matched, 4, []);
         $solution = $builder->solution($players);
         $cost = $builder->cost($solution);
-        $this->assertEquals(12, $cost);
+        $this->assertEquals(36, $cost);
     }
 
     public function testBuilderCanBuild() {
@@ -384,49 +401,6 @@ class BalancedGreedyPairingTest extends TestCase {
         $this->assertTrue(isset($result['groups']));
         $this->assertEquals(4, $result['cost']);
         $this->assertEquals(1, count($result['groups']));
-    }
-
-    public function testBuilderCanBuildAcceptable16PlayerGroups() {
-        $players = [];
-        for($i=0;$i<16;$i++) {
-            $players[] = 'Seed#'.($i+1);
-        }
-
-        // Run this simulation 100 times
-        for ($j=0;$j<100;$j++) {
-
-            $previously_matched = [];
-            // Simulate 5 rounds of play
-            for ($i=0;$i<5;$i++) {
-                $builder = new haugstrup\TournamentUtils\BalancedGreedyPairing($players, $previously_matched, 4, []);
-                $result = $builder->build();
-
-                $this->assertTrue(isset($result['cost']));
-                $this->assertTrue(isset($result['groups']));
-                // First three rounds must have zero cost
-                // Last round can have 0 or 4 cost
-                if ($i < 3) {
-                    $this->assertEquals(0, $result['cost']);
-                } else {
-                    $this->assertLessThan(5, $result['cost']);
-                }
-                $this->assertEquals(4, count($result['groups']));
-
-                // Add matchups to $previously_matched
-                foreach ($result['groups'] as $group) {
-                    foreach ($group as $player) {
-                        foreach ($group as $c_player) {
-                            if ($player !== $c_player) {
-                                $id = array_search ($player, $players);
-                                $c_id = array_search ($c_player, $players);
-                                $previously_matched[$id][] = $c_id;
-                            }
-                        }
-                    }
-                }
-            }
-
-        }
     }
 
     public function testBuilderCanBuildPerfectSFPDSeason() {

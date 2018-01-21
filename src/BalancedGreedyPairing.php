@@ -149,6 +149,7 @@ class BalancedGreedyPairing extends RandomOptimizer {
     // Add repeat opponent costs
     $handled_players = [];
     foreach ($players as $id) {
+      $cost_was_added = false;
       $opponent_counts = [];
       if (isset($this->previously_matched[$id])) {
         $opponent_counts = array_count_values($this->previously_matched[$id]);
@@ -159,8 +160,24 @@ class BalancedGreedyPairing extends RandomOptimizer {
 
         if (array_key_exists($inner_id, $opponent_counts)) {
           $cost += pow($opponent_counts[$inner_id], 2);
+          $cost_was_added = true;
         }
       }
+
+      // If are assigning a repeat opponent (cost_was_added)
+      // and this player has other previously matched opponents.
+      // Then add to cost for each previously matched opponent
+      // that was faced more than once.
+      // This is to avoid one player getting multiple repeat
+      // opponents before other players get their first repeat.
+      if ($cost_was_added && count($opponent_counts) > 0) {
+        foreach ($opponent_counts as $inner_id => $count) {
+          if (!in_array($inner_id, $players)) {
+            $cost += $count;
+          }
+        }
+      }
+
       $handled_players[] = $id;
     }
     return $cost;
