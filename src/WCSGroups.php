@@ -7,9 +7,10 @@ class WCSGroups extends Base {
   public $players = array();
   public $group_size = array();
 
-  public function __construct($players, $group_size) {
+  public function __construct($players, $group_size, $extra_from_bottom = true) {
     $this->players = $players;
     $this->group_size = $group_size;
+    $this->extra_from_bottom = $extra_from_bottom;
   }
 
   public function build() {
@@ -39,16 +40,25 @@ class WCSGroups extends Base {
       $groups[] = $group_players;
     }
 
-    // Place extras evenly, from the bottom
+    // Place extras evenly, from the bottom or top
     if ($extras) {
-      $groups = array_reverse($groups);
+
+      // Reverse to get bottom group to the top
+      if ($this->extra_from_bottom) {
+        $groups = array_reverse($groups);
+      }
+
       $i = 0;
       foreach ($extras as $player) {
         $groups[$i][] = $player;
         $i++;
         if (!isset($groups[$i])) $i=0;
       }
-      $groups = array_reverse($groups);
+
+      // Bring groups back in the expected order
+      if ($this->extra_from_bottom) {
+        $groups = array_reverse($groups);
+      }
     }
 
     return $groups;
