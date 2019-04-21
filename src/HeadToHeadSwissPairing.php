@@ -56,7 +56,7 @@ class HeadToHeadSwissPairing extends Base {
 
     $match = array(); // 2-element array of player IDs
     foreach ($this->groups as $group) {
-      $pool = array_keys($group);	// player IDs of current group
+      $pool = array_keys($group); // player IDs of current group
 
       // remove the "bye" player from the pool if they're in it
       if (count($byes) > 0 && $bye_in_pool = array_search($byes[0], $pool)) {

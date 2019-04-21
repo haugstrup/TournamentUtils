@@ -16,7 +16,7 @@ class HeadToHeadSwissPairingTest extends TestCase {
     $this->assertEquals($count % 2, count($pairings['byes']));
     if ($count % 2) {
       if (!isset($players[$pairings['byes'][0]])) $players[$pairings['byes'][0]] = 0;
-    	$players[$pairings['byes'][0]]++;
+      $players[$pairings['byes'][0]]++;
     }
     $this->assertEquals(floor($count / 2), count($pairings['groups']));
     foreach ($pairings['groups'] as $group) {
