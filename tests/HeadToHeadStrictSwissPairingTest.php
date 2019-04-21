@@ -6,7 +6,7 @@ class HeadToHeadStrictSwissPairingTest extends TestCase {
 
   protected $debugData = [];
 
-  public function setUp() {
+  public function setUp(): void {
     $this->debugData = [];
   }
 
