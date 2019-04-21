@@ -130,8 +130,6 @@ class WCSGroupsTest extends TestCase {
         $builder = new haugstrup\TournamentUtils\WCSGroups($players, 4, false);
         $groups = $builder->build();
 
-        print_r($groups[0]);
-
         $this->assertEquals(['Seed#1', 'Seed#8', 'Seed#12', 'Seed#16', 'Seed#17'], $groups[0]);
         // $this->assertEquals(['Seed#2', 'Seed#7', 'Seed#11', 'Seed#15', 'Seed#18'], $groups[1]);
         // $this->assertEquals(['Seed#3', 'Seed#6', 'Seed#10', 'Seed#14', 'Seed#19'], $groups[2]);
