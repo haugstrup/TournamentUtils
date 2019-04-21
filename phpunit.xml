@@ -7,6 +7,9 @@
   <logging>
     <log type="coverage-html" target="coverage-report/"/>
   </logging>
+  <listeners>
+    <listener class="DebugTestListener" file="tests/DebugTestListener.php"/>
+  </listeners>
   <filter>
     <whitelist>
       <directory suffix=".php">src/</directory>

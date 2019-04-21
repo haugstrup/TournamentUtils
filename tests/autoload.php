@@ -10,6 +10,7 @@ require_once 'src/CrossPairing.php';
 require_once 'src/GlickoCalculator.php';
 require_once 'src/GroupTieredSwissPairing.php';
 require_once 'src/HeadToHeadSwissPairing.php';
+require_once 'src/HeadToHeadStrictSwissPairing.php';
 require_once 'src/RandomOptimizer.php';
 require_once 'src/RoundRobinPairing.php';
 require_once 'src/SingleEliminationBracket.php';
