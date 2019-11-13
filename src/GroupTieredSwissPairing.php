@@ -58,6 +58,19 @@ class GroupTieredSwissPairing extends Base {
         128 => array(128, 64, 32, 16, 4),
       ),
       
+      // 6 round tiered swiss, made by Morten Søbyskogen
+      6 => array(
+        16 => array(16, 16, 8, 8, 8, 4),
+        20 => array(20, array(12, 8), array(12, 8), array(12, 8), array(8, 8, 4), 4),
+        24 => array(24, 12,12, 8,8, 4),
+        28 => array(28, array(16, 12), array(16, 12),array(8,8,8,4), array(8, 8, 8, 4),4),
+        32 => array(32, 16, 16, 8, 8, 4),
+        36 => array(36, array(20, 16),array(20, 16), 12, array(8, 8, 8, 8, 4), 4),
+        40 => array(40, 20, 20, 8, 8, 4),
+        44 => array(44, array(24, 20),array(24, 20), array(16, 16, 12), array(8, 8, 8, 8, 8, 4), 4),
+        48 => array(48, 24, 24, 16, 8, 4),
+      ),
+      
       // 7 round tiered swiss arrays, made by Morten Søbyskogen (dont blame Andreas ;))
       7 => array(
         16 => array(16, 16, 16, 8, 8, 8, 4),
