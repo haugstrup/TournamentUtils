@@ -2,8 +2,6 @@ language: php
 php:
 - '7.0'
 - '7.1'
-- '7.2'
-- '7.3'
 notifications:
   slack:
     secure: apOweTUNUDt2rzAHD6OrIgrdX0EaRwQLQYd6yqcZ4qqx//8/91oC1/s46boOVFqfXE8WiJdj3iz8SwxbUcHs5wc/66eCuHusiIMT0bEsL7yZ6t9kioEokuKq2qIy3gt3S9jBtWkYdfqw63RU46vfU6+eAid4Div45XLDHeNJX8Y=
