@@ -3,9 +3,24 @@
 require_once 'RandomOptimizer.php';
 
 class BalancedArena extends RandomOptimizer {
+    // The groups to assign arenas to. Each group is an array
+    // of player ids.
     public $groups = [];
+
+    // Array of arena ids that can be assigned.
     public $available_arenas = [];
+
+    // Number of times each player has played each arena previously.
+    // Used in the cost function to avoid assigning the same machine again.
     public $arena_plays = [];
+
+    // The number of arenas to assign each group
+    public $amount = 1;
+
+    // Array of strings. Represents groups/matches to never
+    // assign an arena. Each entry in the array looks like 'x,y'
+    // where x is the group index and y is the game index for that group
+    public $skip_list = [];
 
     public function __construct(
         $groups,
