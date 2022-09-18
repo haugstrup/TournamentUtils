@@ -169,34 +169,54 @@ class GlickoCalculatorTest extends TestCase {
     $calculator->addResult([3, 1]);
     $calculator->addResult([4, 1]);
 
-    $result = [
+    $outcome = [
         1 => [
             'rating' => 1500,
-            'rd' => 200.50839328158,
-            'new_rd' => 151.67289288472,
-            'new_rating' => 1464.0036609438,
+            'rd' => 200.51,
+            'new_rd' => 151.67,
+            'new_rating' => 1464.00,
         ],
         2 => [
             'rating' => 1400,
-            'rd' => 33.220713062185,
-            'new_rd' => 33.119222327668,
-            'new_rating' => 1397.9709302107,
+            'rd' => 33.22,
+            'new_rd' => 33.12,
+            'new_rating' => 1397.97,
         ],
         3 => [
             'rating' => 1550,
-            'rd' => 101.0129485579,
-            'new_rd' => 98.145450528184,
-            'new_rating' => 1570.5647663985,
+            'rd' => 101.01,
+            'new_rd' => 98.15,
+            'new_rating' => 1570.56,
         ],
         4 => [
             'rating' => 1700,
-            'rd' => 300.33916790249,
-            'new_rd' => 251.7031108919,
-            'new_rating' => 1784.4896381663,
+            'rd' => 300.34,
+            'new_rd' => 251.70,
+            'new_rating' => 1784.49,
         ],
     ];
 
-    $this->assertEquals($result, $calculator->updateRatings());
+    $result = $calculator->updateRatings();
+
+    $this->assertEquals($result[1]['rating'], $outcome[1]['rating']);
+    $this->assertEquals(round($result[1]['rd'], 2), $outcome[1]['rd']);
+    $this->assertEquals(round($result[1]['new_rd'], 2), $outcome[1]['new_rd']);
+    $this->assertEquals(round($result[1]['new_rating'], 2), $outcome[1]['new_rating']);
+
+    $this->assertEquals($result[2]['rating'], $outcome[2]['rating']);
+    $this->assertEquals(round($result[2]['rd'], 2), $outcome[2]['rd']);
+    $this->assertEquals(round($result[2]['new_rd'], 2), $outcome[2]['new_rd']);
+    $this->assertEquals(round($result[2]['new_rating'], 2), $outcome[2]['new_rating']);
+
+    $this->assertEquals($result[3]['rating'], $outcome[3]['rating']);
+    $this->assertEquals(round($result[3]['rd'], 2), $outcome[3]['rd']);
+    $this->assertEquals(round($result[3]['new_rd'], 2), $outcome[3]['new_rd']);
+    $this->assertEquals(round($result[3]['new_rating'], 2), $outcome[3]['new_rating']);
+
+    $this->assertEquals($result[4]['rating'], $outcome[4]['rating']);
+    $this->assertEquals(round($result[4]['rd'], 2), $outcome[4]['rd']);
+    $this->assertEquals(round($result[4]['new_rd'], 2), $outcome[4]['new_rd']);
+    $this->assertEquals(round($result[4]['new_rating'], 2), $outcome[4]['new_rating']);
   }
 
 }
