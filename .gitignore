@@ -2,3 +2,4 @@
 /coverage-report
 composer.lock
 sample-patl.xlsx
+.phpunit.result.cache
