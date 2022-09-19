@@ -64,7 +64,7 @@ class BalancedArena extends RandomOptimizer {
                 }
 
                 $chosen_arenas[$i] = null;
-                if (count($available) > 0) {
+                if (count($available) > 0 && !in_array($group_key.','.$i, $this->skip_list)) {
                     $key = $this->array_rand($available, 1);
                     $chosen_arenas[$i] = $available[$key];
 
