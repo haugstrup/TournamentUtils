@@ -33,11 +33,12 @@ class RoundRobinPairing extends Base {
         if (is_null($top_player)) {
           $round['byes'][] = $bottom[$index];
         } else {
-          $round['groups'][] = array($top_player, $bottom[$index]);
+          $group = $index === 0 && $i % 2 ? array($bottom[$index], $top_player) : array($top_player, $bottom[$index]);
+          $round['groups'][] = $group;
 
           // If double round robin, create two games
           if ($this->double) {
-            $round['groups'][] = array($bottom[$index], $top_player);
+            $round['groups'][] = array_reverse($group);
           }
         }
       }
