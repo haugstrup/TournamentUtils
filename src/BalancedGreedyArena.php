@@ -31,6 +31,7 @@ class BalancedGreedyArena extends RandomOptimizer
         $amount = 1,
         $arena_plays = []
     ) {
+        $this->iterations = 100;
         $this->groups = $groups;
         $this->available_arenas = $available_arenas;
         $this->arena_plays = $arena_plays;
