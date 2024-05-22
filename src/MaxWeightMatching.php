@@ -73,6 +73,28 @@ class MaxWeightMatching {
 
     */
 
+    public $bestedgeto;
+    public $edges;
+    public $maxcardinality;
+    public $nedge;
+    public $nvertex;
+    public $endpoint;
+    public $neighbend;
+    public $mate;
+    public $label;
+    public $labelend;
+    public $inblossom;
+    public $blossomparent;
+    public $blossomchilds;
+    public $blossombase;
+    public $blossomendps;
+    public $bestedge;
+    public $blossombestedges;
+    public $unusedblossoms;
+    public $dualvar;
+    public $allowedge;
+    public $queue;
+
     function __construct($edges, $maxcardinality=false) {
         global $DEBUG;
 
