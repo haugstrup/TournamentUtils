@@ -6,6 +6,7 @@ class WCSGroups extends Base {
 
   public $players = array();
   public $group_size = array();
+  public $extra_from_bottom;
 
   public function __construct($players, $group_size, $extra_from_bottom = true) {
     $this->players = $players;
