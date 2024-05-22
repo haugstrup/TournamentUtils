@@ -22,6 +22,23 @@ class BalancedGreedyArenaTest extends TestCase {
         $this->assertEquals($solution['cost'], 0);
     }
 
+    public function testDoesNotAssignToSkipListEntry() {
+        $groups = [
+            [1, 2, 3, 4],
+            [5, 6, 7, 8],
+            [9, 10, 11, 12],
+        ];
+        $arenas = [90, 91, 92, 93, 94, 95, 96, 97, 98, 99];
+        $amount = 3;
+
+        $builder = new haugstrup\TournamentUtils\BalancedGreedyArena($groups, $arenas, $amount, []);
+        $builder->skip_list = ['1,1'];
+        $solution = $builder->build();
+        $this->assertEquals($solution['groups'][1][1], null);
+        $this->assertEquals(count($solution['groups']), count($groups));
+        $this->assertEquals($solution['cost'], 0);
+    }
+
     public function testAssignsArenaOnlyOnce() {
         $groups = [
             [1, 2, 3, 4],

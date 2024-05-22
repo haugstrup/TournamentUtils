@@ -64,6 +64,11 @@ class BalancedGreedyArena extends RandomOptimizer
                     continue;
                 }
 
+                // If this entry is in the skip list, skip it
+                if (in_array($group_index.','.$i, $this->skip_list)) {
+                    continue;
+                }
+
                 // Go through each of the available arenas and find the one
                 // with the lowest cost. This is the "greedy" optimization
                 // where we search through the entire list of arenas each
