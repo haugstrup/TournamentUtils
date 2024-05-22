@@ -110,17 +110,17 @@ class BalancedGreedyArena extends RandomOptimizer
             if (isset($this->arena_plays[$player_id]) && isset($this->arena_plays[$player_id][$arena])) {
                 $cost = $cost + pow($this->arena_plays[$player_id][$arena], 2);
 
-				// Add additional cost for each previously played arena
-				// that's been played more than once. This is to avoid
-				// a player getting multiple repeat arenas before other
-				// players get their first repeat.
-				if (isset($this->arena_plays[$player_id])) {
-					foreach ($this->arena_plays[$player_id] as $inner_arena => $inner_count) {
-						if ($inner_arena !== $arena && $inner_count > 0) {
-							$cost += $inner_count;
-						}
-					}
-				}
+                // Add additional cost for each previously played arena
+                // that's been played more than once. This is to avoid
+                // a player getting multiple repeat arenas before other
+                // players get their first repeat.
+                if (isset($this->arena_plays[$player_id])) {
+                    foreach ($this->arena_plays[$player_id] as $inner_arena => $inner_count) {
+                        if ($inner_arena !== $arena && $inner_count > 0) {
+                            $cost += $inner_count;
+                        }
+                    }
+                }
             }
         }
 
