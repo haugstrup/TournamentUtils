@@ -48,6 +48,14 @@ class BalancedGreedyArena extends RandomOptimizer
         // $group_keys = $this->shuffle($group_keys);
         // $input['available_arenas'] = $this->shuffle($input['available_arenas']);
 
+        // Since this solution looks for the best arena at each step, it will by default
+        // pick the same machine for each games in the group group. For example, if there's
+        // one arena no one in the group has played that arena will be picked for every game
+        // because it's the best option.
+        //
+        // To avoid that happening we must keep a local skip list for each group.
+        $group_skiplist = [];
+
         for($i = 0; $i < $this->amount; $i++) {
             // Shuffle the list of arenas and groups to get a fresh
             // starting point for each iteration
@@ -80,6 +88,11 @@ class BalancedGreedyArena extends RandomOptimizer
                 $best_arena = null;
                 $best_arena_index = null;
                 foreach ($arenas as $arena_index => $arena) {
+
+                    if (in_array($group_index.','.$arena, $group_skiplist)) {
+                        continue;
+                    }
+
                     $current_cost = $this->cost_for_selection($input['groups'][$group_index], $arena);
                     $current_cost_delta = $current_cost - $subsolution['cost'];
 
@@ -97,6 +110,8 @@ class BalancedGreedyArena extends RandomOptimizer
                         }
                     }
                 }
+
+                $group_skiplist[] = $group_index.','.$best_arena;
 
                 $subsolution['arenas'][$group_index] = $best_arena;
                 $subsolution['cost'] = $subsolution['cost'] + $best_cost;

@@ -89,6 +89,27 @@ class BalancedGreedyArenaTest extends TestCase {
         $this->assertEquals($solution['cost'], 0);
     }
 
+    public function testDoesNotAssignSameArenaMoreThanOnceToGroup() {
+        $groups = [
+            [1, 2, 3, 4],
+        ];
+        $arenas = [90, 91, 92, 93];
+        $arena_plays = [
+            // player 1 has played everything except 93
+            1 => [90 => 1, 91 => 2, 92 => 2],
+        ];
+        $amount = 2;
+
+        $builder = new haugstrup\TournamentUtils\BalancedGreedyArena($groups, $arenas, $amount, $arena_plays);
+        $solution = $builder->build();
+
+        $sorted = $solution['groups'][0];
+        sort($sorted);
+
+        $this->assertEquals($sorted, [90, 93]);
+        $this->assertEquals($solution['cost'], 5);
+    }
+
     public function testCalculatesCostWithNoPreviousPlays() {
         $arena_plays = [];
         $builder = new haugstrup\TournamentUtils\BalancedGreedyArena([], [], 1, $arena_plays);
