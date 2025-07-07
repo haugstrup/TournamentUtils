@@ -9,7 +9,8 @@
         }
     ],
     "require-dev": {
-      "phpunit/phpunit": "^9.5"
+      "phpunit/phpunit": "^9.5",
+        "laravel/pint": "^1.23"
     },
     "autoload": {
         "psr-4": {
