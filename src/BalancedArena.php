@@ -1,8 +1,11 @@
-<?php namespace haugstrup\TournamentUtils;
+<?php
+
+namespace haugstrup\TournamentUtils;
 
 require_once 'RandomOptimizer.php';
 
-class BalancedArena extends RandomOptimizer {
+class BalancedArena extends RandomOptimizer
+{
     // The groups to assign arenas to. Each group is an array
     // of player ids.
     public $groups = [];
@@ -34,7 +37,8 @@ class BalancedArena extends RandomOptimizer {
         $this->amount = $amount;
     }
 
-    public function solution($input) {
+    public function solution($input)
+    {
         // For each group pick a random arena, only allow each arena to be used once
         $solution = [];
 
@@ -45,11 +49,11 @@ class BalancedArena extends RandomOptimizer {
         $input['available_arenas'] = $this->shuffle($input['available_arenas']);
 
         $arenas = [];
-        for($i = 0; $i < $this->amount; $i++) {
+        for ($i = 0; $i < $this->amount; $i++) {
             $arenas[$i] = $input['available_arenas'];
         }
 
-        foreach($group_keys as $group_key) {
+        foreach ($group_keys as $group_key) {
             $group = $input['groups'][$group_key];
             $chosen_arenas = [];
 
@@ -64,7 +68,7 @@ class BalancedArena extends RandomOptimizer {
                 }
 
                 $chosen_arenas[$i] = null;
-                if (count($available) > 0 && !in_array($group_key.','.$i, $this->skip_list)) {
+                if (count($available) > 0 && ! in_array($group_key.','.$i, $this->skip_list)) {
                     $key = $this->array_rand($available, 1);
                     $chosen_arenas[$i] = $available[$key];
 
@@ -81,14 +85,15 @@ class BalancedArena extends RandomOptimizer {
             $solution[] = [
                 'group_index' => $group_key,
                 'group' => $group,
-                'arenas' => $chosen_arenas
+                'arenas' => $chosen_arenas,
             ];
         }
 
         return $solution;
     }
 
-    public function cost($solution) {
+    public function cost($solution)
+    {
         // Cost is a function of how many plays the arena has gotten
         $cost = 0;
 
@@ -97,7 +102,7 @@ class BalancedArena extends RandomOptimizer {
                 if (isset($this->arena_plays[$player_id])) {
                     foreach ($item['arenas'] as $arena) {
                         if (isset($this->arena_plays[$player_id][$arena])) {
-                            $cost = $cost+pow($this->arena_plays[$player_id][$arena], 2);
+                            $cost = $cost + pow($this->arena_plays[$player_id][$arena], 2);
                         }
                     }
                 }
@@ -108,10 +113,11 @@ class BalancedArena extends RandomOptimizer {
         return $cost;
     }
 
-    public function build() {
+    public function build()
+    {
         $result = $this->solve([
             'groups' => $this->groups,
-            'available_arenas' => $this->available_arenas
+            'available_arenas' => $this->available_arenas,
         ]);
         $groups = [];
 

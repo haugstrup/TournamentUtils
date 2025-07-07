@@ -56,7 +56,7 @@ class BalancedGreedyArena extends RandomOptimizer
         // To avoid that happening we must keep a local skip list for each group.
         $group_skiplist = [];
 
-        for($i = 0; $i < $this->amount; $i++) {
+        for ($i = 0; $i < $this->amount; $i++) {
             // Shuffle the list of arenas and groups to get a fresh
             // starting point for each iteration
             $arenas = $this->shuffle($input['available_arenas']);
@@ -121,6 +121,7 @@ class BalancedGreedyArena extends RandomOptimizer
             }
             $solution[] = $subsolution;
         }
+
         return $solution;
     }
 
@@ -155,6 +156,7 @@ class BalancedGreedyArena extends RandomOptimizer
         foreach ($solution as $subsolution) {
             $cost += $subsolution['cost'];
         }
+
         return $cost;
     }
 
@@ -162,7 +164,7 @@ class BalancedGreedyArena extends RandomOptimizer
     {
         $result = $this->solve([
             'groups' => $this->groups,
-            'available_arenas' => $this->available_arenas
+            'available_arenas' => $this->available_arenas,
         ]);
         $groups = [];
 
@@ -171,7 +173,7 @@ class BalancedGreedyArena extends RandomOptimizer
         foreach ($this->groups as $group_index => $current_group) {
             $groups[$group_index] = [];
             foreach ($result['solution'] as $subsolution) {
-                if (!empty($subsolution['arenas'][$group_index])) {
+                if (! empty($subsolution['arenas'][$group_index])) {
                     $groups[$group_index][] = $subsolution['arenas'][$group_index];
                 } else {
                     $groups[$group_index][] = null;

@@ -1,9 +1,11 @@
 <?php
+
 use PHPUnit\Framework\TestCase;
 
-class BalancedGreedyArenaTest extends TestCase {
-
-    public function testAssignsArenaToEveryGroup() {
+class BalancedGreedyArenaTest extends TestCase
+{
+    public function test_assigns_arena_to_every_group()
+    {
         $groups = [
             [1, 2, 3, 4],
             [5, 6, 7, 8],
@@ -22,7 +24,8 @@ class BalancedGreedyArenaTest extends TestCase {
         $this->assertEquals($solution['cost'], 0);
     }
 
-    public function testDoesNotAssignToSkipListEntry() {
+    public function test_does_not_assign_to_skip_list_entry()
+    {
         $groups = [
             [1, 2, 3, 4],
             [5, 6, 7, 8],
@@ -39,7 +42,8 @@ class BalancedGreedyArenaTest extends TestCase {
         $this->assertEquals($solution['cost'], 0);
     }
 
-    public function testAssignsArenaOnlyOnce() {
+    public function test_assigns_arena_only_once()
+    {
         $groups = [
             [1, 2, 3, 4],
             [5, 6, 7, 8],
@@ -62,7 +66,8 @@ class BalancedGreedyArenaTest extends TestCase {
         $this->assertEquals($solution['cost'], 0);
     }
 
-    public function testAssignsArenaOncePerAmount() {
+    public function test_assigns_arena_once_per_amount()
+    {
         $groups = [
             [1, 2, 3, 4],
             [5, 6, 7, 8],
@@ -89,7 +94,8 @@ class BalancedGreedyArenaTest extends TestCase {
         $this->assertEquals($solution['cost'], 0);
     }
 
-    public function testDoesNotAssignSameArenaMoreThanOnceToGroup() {
+    public function test_does_not_assign_same_arena_more_than_once_to_group()
+    {
         $groups = [
             [1, 2, 3, 4],
         ];
@@ -110,14 +116,16 @@ class BalancedGreedyArenaTest extends TestCase {
         $this->assertEquals($solution['cost'], 5);
     }
 
-    public function testCalculatesCostWithNoPreviousPlays() {
+    public function test_calculates_cost_with_no_previous_plays()
+    {
         $arena_plays = [];
         $builder = new haugstrup\TournamentUtils\BalancedGreedyArena([], [], 1, $arena_plays);
         $cost = $builder->cost_for_selection([1, 2, 3, 4], 90);
         $this->assertEquals(0, $cost);
     }
 
-    public function testCalculatesCostWithPreviousPlays() {
+    public function test_calculates_cost_with_previous_plays()
+    {
         $arena_plays = [
             1 => [90 => 1],
             3 => [90 => 2],
@@ -127,7 +135,8 @@ class BalancedGreedyArenaTest extends TestCase {
         $this->assertEquals(5, $cost);
     }
 
-    public function testCalculatesCostWithOtherPreviousPlays() {
+    public function test_calculates_cost_with_other_previous_plays()
+    {
         $arena_plays = [
             1 => [90 => 1],
             4 => [90 => 2, 91 => 2, 92 => 1],
@@ -136,5 +145,4 @@ class BalancedGreedyArenaTest extends TestCase {
         $cost = $builder->cost_for_selection([1, 2, 3, 4], 90);
         $this->assertEquals(8, $cost);
     }
-
 }

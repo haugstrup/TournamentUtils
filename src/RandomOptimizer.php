@@ -1,25 +1,31 @@
-<?php namespace haugstrup\TournamentUtils;
+<?php
+
+namespace haugstrup\TournamentUtils;
 
 require_once 'Base.php';
 
-class RandomOptimizer extends Base {
+class RandomOptimizer extends Base
+{
     public $iterations = 1000;
 
     // Implement this in your subclass
-    public function cost($solution) {
+    public function cost($solution)
+    {
         return null;
     }
 
     // Implement this in your subclass
-    public function solution($input) {
+    public function solution($input)
+    {
         return null;
     }
 
-    public function solve($input) {
+    public function solve($input)
+    {
         $best_cost = null;
         $best_solution = null;
 
-        for($i = 0; $i < $this->iterations; $i++) {
+        for ($i = 0; $i < $this->iterations; $i++) {
 
             $solution = $this->solution($input);
             $cost = $this->cost($solution);
@@ -34,6 +40,6 @@ class RandomOptimizer extends Base {
             }
         }
 
-        return array('cost' => $best_cost, 'solution' => $best_solution);
+        return ['cost' => $best_cost, 'solution' => $best_solution];
     }
 }

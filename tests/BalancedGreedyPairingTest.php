@@ -1,9 +1,11 @@
 <?php
+
 use PHPUnit\Framework\TestCase;
 
-class BalancedGreedyPairingTest extends TestCase {
-
-    public function testCreatesCorrectGroupCounts() {
+class BalancedGreedyPairingTest extends TestCase
+{
+    public function test_creates_correct_group_counts()
+    {
         $group_counts_2 = [
             2 => 1,
             3 => 2,
@@ -46,18 +48,18 @@ class BalancedGreedyPairingTest extends TestCase {
         ];
 
         $players = [];
-        for($i=0;$i<20;$i++) {
-            $players[] = 'Seed#'.($i+1);
+        for ($i = 0; $i < 20; $i++) {
+            $players[] = 'Seed#'.($i + 1);
         }
         // Two player groups
-        for($i=2;$i<21;$i++) {
+        for ($i = 2; $i < 21; $i++) {
             $list = array_slice($players, 0, $i);
             $builder = new haugstrup\TournamentUtils\BalancedGreedyPairing($list, [], 2, []);
             $solution = $builder->solution($list);
             $this->assertEquals($group_counts_2[$i], count($solution));
         }
         // Four player groups
-        for($i=4;$i<21;$i++) {
+        for ($i = 4; $i < 21; $i++) {
             $list = array_slice($players, 0, $i);
             $builder = new haugstrup\TournamentUtils\BalancedGreedyPairing($list, [], 4, []);
             $solution = $builder->solution($list);
@@ -65,13 +67,14 @@ class BalancedGreedyPairingTest extends TestCase {
         }
     }
 
-    public function testCreatesCorrectGroupSizes() {
+    public function test_creates_correct_group_sizes()
+    {
         $players = [];
-        for($i=0;$i<20;$i++) {
-            $players[] = 'Seed#'.($i+1);
+        for ($i = 0; $i < 20; $i++) {
+            $players[] = 'Seed#'.($i + 1);
         }
         // Two player groups
-        for($i=2;$i<21;$i++) {
+        for ($i = 2; $i < 21; $i++) {
             $list = array_slice($players, 0, $i);
             $builder = new haugstrup\TournamentUtils\BalancedGreedyPairing($list, [], 2, []);
             $solution = $builder->solution($list);
@@ -82,7 +85,7 @@ class BalancedGreedyPairingTest extends TestCase {
             $this->assertEquals(count($list), $sum);
         }
         // Four player groups
-        for($i=4;$i<21;$i++) {
+        for ($i = 4; $i < 21; $i++) {
             $list = array_slice($players, 0, $i);
             $builder = new haugstrup\TournamentUtils\BalancedGreedyPairing($list, [], 4, []);
             $solution = $builder->solution($list);
@@ -94,13 +97,14 @@ class BalancedGreedyPairingTest extends TestCase {
         }
     }
 
-    public function testCreatesGroupsWithCorrectPlayerCounts() {
+    public function test_creates_groups_with_correct_player_counts()
+    {
         $players = [];
-        for($i=0;$i<20;$i++) {
-            $players[] = 'Seed#'.($i+1);
+        for ($i = 0; $i < 20; $i++) {
+            $players[] = 'Seed#'.($i + 1);
         }
         // Two player groups
-        for($i=2;$i<21;$i++) {
+        for ($i = 2; $i < 21; $i++) {
             $list = array_slice($players, 0, $i);
             $builder = new haugstrup\TournamentUtils\BalancedGreedyPairing($list, [], 2, []);
             $solution = $builder->solution($list);
@@ -111,7 +115,7 @@ class BalancedGreedyPairingTest extends TestCase {
             $this->assertEquals(count($list), $sum);
         }
         // Four player groups
-        for($i=4;$i<21;$i++) {
+        for ($i = 4; $i < 21; $i++) {
             $list = array_slice($players, 0, $i);
             $builder = new haugstrup\TournamentUtils\BalancedGreedyPairing($list, [], 4, []);
             $solution = $builder->solution($list);
@@ -123,7 +127,8 @@ class BalancedGreedyPairingTest extends TestCase {
         }
     }
 
-    public function testCreatesCorrectTwoPlayerGroupCounts() {
+    public function test_creates_correct_two_player_group_counts()
+    {
         $group_counts_2 = [
             2 => 1,
             3 => 1,
@@ -166,11 +171,11 @@ class BalancedGreedyPairingTest extends TestCase {
         ];
 
         $players = [];
-        for($i=0;$i<20;$i++) {
-            $players[] = 'Seed#'.($i+1);
+        for ($i = 0; $i < 20; $i++) {
+            $players[] = 'Seed#'.($i + 1);
         }
         // Two player groups
-        for($i=2;$i<21;$i++) {
+        for ($i = 2; $i < 21; $i++) {
             $list = array_slice($players, 0, $i);
             $builder = new haugstrup\TournamentUtils\BalancedGreedyPairing($list, [], 2, []);
             $solution = $builder->solution($list);
@@ -184,7 +189,7 @@ class BalancedGreedyPairingTest extends TestCase {
             $this->assertEquals($group_counts_2[$i], $count);
         }
         // Four player groups
-        for($i=4;$i<21;$i++) {
+        for ($i = 4; $i < 21; $i++) {
             $list = array_slice($players, 0, $i);
             $builder = new haugstrup\TournamentUtils\BalancedGreedyPairing($list, [], 4, []);
             $solution = $builder->solution($list);
@@ -199,7 +204,8 @@ class BalancedGreedyPairingTest extends TestCase {
         }
     }
 
-    public function testCreatesCorrectThreePlayerGroupCounts() {
+    public function test_creates_correct_three_player_group_counts()
+    {
         $group_counts = [
             4 => 0,
             5 => 1,
@@ -221,10 +227,10 @@ class BalancedGreedyPairingTest extends TestCase {
         ];
 
         $players = [];
-        for($i=0;$i<20;$i++) {
-            $players[] = 'Seed#'.($i+1);
+        for ($i = 0; $i < 20; $i++) {
+            $players[] = 'Seed#'.($i + 1);
         }
-        for($i=4;$i<21;$i++) {
+        for ($i = 4; $i < 21; $i++) {
             $list = array_slice($players, 0, $i);
             $builder = new haugstrup\TournamentUtils\BalancedGreedyPairing($list, [], 4, []);
             $solution = $builder->solution($list);
@@ -239,10 +245,11 @@ class BalancedGreedyPairingTest extends TestCase {
         }
     }
 
-    public function testPlacesThreePlayerGroupsAtEnd() {
+    public function test_places_three_player_groups_at_end()
+    {
         $players = [];
-        for($i=0;$i<17;$i++) {
-            $players[] = 'Seed#'.($i+1);
+        for ($i = 0; $i < 17; $i++) {
+            $players[] = 'Seed#'.($i + 1);
         }
         $builder = new haugstrup\TournamentUtils\BalancedGreedyPairing($players, [], 4, []);
         $groups = $builder->build();
@@ -253,20 +260,22 @@ class BalancedGreedyPairingTest extends TestCase {
         }
     }
 
-    public function testCalculatesCostWithNoPreviousMatches() {
+    public function test_calculates_cost_with_no_previous_matches()
+    {
         $players = [];
-        for($i=0;$i<20;$i++) {
-            $players[] = 'Seed#'.($i+1);
+        for ($i = 0; $i < 20; $i++) {
+            $players[] = 'Seed#'.($i + 1);
         }
         $builder = new haugstrup\TournamentUtils\BalancedGreedyPairing($players, [], 4, []);
         $cost = $builder->cost_for_players(array_slice($players, 0, 4));
         $this->assertEquals(0, $cost);
     }
 
-    public function testCalculatesCostWithPreviousMatches() {
+    public function test_calculates_cost_with_previous_matches()
+    {
         $players = [];
-        for($i=0;$i<20;$i++) {
-            $players[] = 'Seed#'.($i+1);
+        for ($i = 0; $i < 20; $i++) {
+            $players[] = 'Seed#'.($i + 1);
         }
 
         $previously_matched = [
@@ -281,10 +290,11 @@ class BalancedGreedyPairingTest extends TestCase {
         $this->assertEquals(4, $cost);
     }
 
-    public function testCalculatesCostWithRepeatPreviousMatches() {
+    public function test_calculates_cost_with_repeat_previous_matches()
+    {
         $players = [];
-        for($i=0;$i<20;$i++) {
-            $players[] = 'Seed#'.($i+1);
+        for ($i = 0; $i < 20; $i++) {
+            $players[] = 'Seed#'.($i + 1);
         }
 
         $previously_matched = [
@@ -298,10 +308,11 @@ class BalancedGreedyPairingTest extends TestCase {
         $this->assertEquals(10, $cost);
     }
 
-    public function testCalculatesCostWithOtherPreviouslyMatchedOpponents() {
+    public function test_calculates_cost_with_other_previously_matched_opponents()
+    {
         $players = [];
-        for($i=0;$i<20;$i++) {
-            $players[] = 'Seed#'.($i+1);
+        for ($i = 0; $i < 20; $i++) {
+            $players[] = 'Seed#'.($i + 1);
         }
 
         $previously_matched = [
@@ -315,10 +326,11 @@ class BalancedGreedyPairingTest extends TestCase {
         $this->assertEquals(12, $cost);
     }
 
-    public function testCalculatesCostWithThreePlayerMatches() {
+    public function test_calculates_cost_with_three_player_matches()
+    {
         $players = [];
-        for($i=0;$i<20;$i++) {
-            $players[] = 'Seed#'.($i+1);
+        for ($i = 0; $i < 20; $i++) {
+            $players[] = 'Seed#'.($i + 1);
         }
 
         $previously_matched = [
@@ -341,10 +353,11 @@ class BalancedGreedyPairingTest extends TestCase {
         $this->assertEquals(30, $cost);
     }
 
-    public function testSolutionCalculatesCost() {
+    public function test_solution_calculates_cost()
+    {
         $players = [];
-        for($i=0;$i<4;$i++) {
-            $players[] = 'Seed#'.($i+1);
+        for ($i = 0; $i < 4; $i++) {
+            $players[] = 'Seed#'.($i + 1);
         }
 
         $previously_matched = [
@@ -359,10 +372,11 @@ class BalancedGreedyPairingTest extends TestCase {
         $this->assertEquals(4, $solution[0]['cost']);
     }
 
-    public function testCostCalculatesCost() {
+    public function test_cost_calculates_cost()
+    {
         $players = [];
-        for($i=0;$i<8;$i++) {
-            $players[] = 'Seed#'.($i+1);
+        for ($i = 0; $i < 8; $i++) {
+            $players[] = 'Seed#'.($i + 1);
         }
 
         $previously_matched = [
@@ -382,10 +396,11 @@ class BalancedGreedyPairingTest extends TestCase {
         $this->assertEquals(36, $cost);
     }
 
-    public function testBuilderCanBuild() {
+    public function test_builder_can_build()
+    {
         $players = [];
-        for($i=0;$i<4;$i++) {
-            $players[] = 'Seed#'.($i+1);
+        for ($i = 0; $i < 4; $i++) {
+            $players[] = 'Seed#'.($i + 1);
         }
 
         $previously_matched = [
@@ -403,8 +418,9 @@ class BalancedGreedyPairingTest extends TestCase {
         $this->assertEquals(1, count($result['groups']));
     }
 
-    public function testBuilderCanBuildPerfectSFPDSeason() {
-        $attendance = json_decode("[[14757,14817,14743,14741,14739,14807,14754,14744,14810,14770,14740,14775,14788,14787,14756,14794,14755,14815,14746,14819,14813,14793,14762,14769,14821,14748,14798,14801,14768,14745,14796,14811,14789,14804,24495,14774,24500,14752,14759,14783,14806,14805,14773,14751,14753,14827,14785,14782,24496,14776,14742,14816,20204,24493,14767,14780,14781,14797,24497],[14742,14754,14761,14780,14743,14767,14813,14825,14749,14751,14788,17306,14752,14776,14805,14823,14757,14774,14797,40836,14766,14787,14806,14821,14741,14768,14781,14784,14775,14783,14789,26854,14755,14785,20204,24500,14748,14760,14796,24501,14753,14808,14816,24491,14770,14807,14819,16574,14798,14817,14827,24497,14744,14746,14811,16571,14747,14769,14771,14815,14745,14756,14814,27828,14740,14803,14804,14822],[14761,14796,14807,20204,14754,14801,14806,14810,14766,14777,14803,42059,14740,14811,14815,14819,14748,14780,14782,14808,14739,14793,24493,24495,14743,14749,14774,14805,14741,14767,14783,40836,14746,14753,14769,14785,14784,14822,14827,16571,14751,14762,14776,24497,14759,14768,14781,14798,14775,14787,24500,42057,14756,14789,14797,14804,14773,14794,14814,14823,14747,14755,24491,14757,14758,14779,14826,42040,42041],[14743,14754,14787,14798,14752,14766,14770,14811,14806,14808,14813,17306,14782,14783,14814,24497,14755,14797,14803,14826,14756,14767,14769,14776,14739,14779,14794,43077,14823,24493,24500,24501,14775,14781,14796,14817,14746,14768,14773,14815,14760,14789,14793,30279,14757,14780,14810,39529,14740,14788,14819,20204,14747,14753,14761,14816,14741,14749,14807,14825,14744,14748,14820,14771,43076,43078,14745,14827,27824],[14758,14776,14804,14806,14798,14817,17949,20204,14797,14805,14807,24497,14773,14780,14796,14825,14742,14759,14803,14810,14784,14787,14811,39529,14746,14751,14789,44142,14743,14783,14819,14827,14770,14771,14782,27828,14745,14749,14816,42041,14753,14813,21031,24500,14744,14762,14815,14823,14755,14775,14778,14781,14769,14779,17306,17952,14740,14767,14774,16571,14747,14756,14801,14814,14785,17950,44143],[14756,14758,14794,14821,14742,14767,14769,26178,14748,14753,14773,14797,14754,14759,14766,14776,14757,14768,14796,14813,14746,14770,14793,14827,14755,14816,21031,39529,14777,14780,14787,20204,14752,14761,14781,45046,14744,14788,14817,24495,14741,14782,14810,24491,14739,14783,14785,14804,14743,14784,14806,14807,14774,14805,14808,27828,14740,14745,14778,24500,14749,14798,14803,14801,14825,45042,14789,14814,14819],[14752,14762,14794,39529,14745,14760,14815,24493,14773,14787,14789,14826,14739,14747,14766,14810,14748,14770,14779,14804,14744,20204,24500,27828,14756,14781,14806,14825,14749,14755,14784,14813,14776,14780,17952,24491,14743,14753,14754,14803,14742,14798,14808,14814,14783,14796,14819,26178,14746,14788,14827,17306,14761,14778,14797,24495,14741,14751,14775,14823,14767,14768,14820,16571,14740,14759,14801,14821,14769,14782,21031],[14741,14754,14771,14781,14740,14793,14796,14805,14745,14798,14823,20204,14755,14756,14768,14801,14739,14804,14815,24491,14774,14778,14784,14813,14744,14747,14773,14782,14746,14757,14821,14825,14751,14758,14780,14794,14770,14779,21031,24500,14767,14814,16574,26178,14748,14760,14803,14826,14742,14769,14788,14807,14761,14787,14808,39529,14759,14776,14810,43076,14749,14753,14766,14783,14775,14797,14806,14820,14827,26174,47065,14816,47066,47067],[14740,14778,14798,24497,14766,14823,21031,48399,14768,14779,14784,14810,14744,14781,14785,14816,14760,14761,14814,14826,14755,14758,14767,14782,14756,14771,14796,14820,14787,14803,14805,14815,14743,14749,14793,14801,14745,14757,14789,14825,14741,14748,14806,14827,14780,14808,14819,20204,14742,14751,14773,24500,14769,14807,24493,24495,14747,14770,14776,14821,14754,14804,14813],[14741,14755,14793,14821,14758,14768,14826,21031,14780,14796,14813,24493,14752,14798,14816,14825,14775,14776,14803,14808,14749,14814,24491,24500,14739,14742,14787,24495,14751,14756,14815,39529,14753,14757,14773,14778,14748,14781,14783,14805,14743,14762,14801,14810,14760,14766,14784,14807,14744,14761,14767,14797,14740,14746,14789,14806,14754,14759,14774,14819,14782,14788,14804,14827,14769,14770,20204,24497,14745,14794,14822]]");
+    public function test_builder_can_build_perfect_sfpd_season()
+    {
+        $attendance = json_decode('[[14757,14817,14743,14741,14739,14807,14754,14744,14810,14770,14740,14775,14788,14787,14756,14794,14755,14815,14746,14819,14813,14793,14762,14769,14821,14748,14798,14801,14768,14745,14796,14811,14789,14804,24495,14774,24500,14752,14759,14783,14806,14805,14773,14751,14753,14827,14785,14782,24496,14776,14742,14816,20204,24493,14767,14780,14781,14797,24497],[14742,14754,14761,14780,14743,14767,14813,14825,14749,14751,14788,17306,14752,14776,14805,14823,14757,14774,14797,40836,14766,14787,14806,14821,14741,14768,14781,14784,14775,14783,14789,26854,14755,14785,20204,24500,14748,14760,14796,24501,14753,14808,14816,24491,14770,14807,14819,16574,14798,14817,14827,24497,14744,14746,14811,16571,14747,14769,14771,14815,14745,14756,14814,27828,14740,14803,14804,14822],[14761,14796,14807,20204,14754,14801,14806,14810,14766,14777,14803,42059,14740,14811,14815,14819,14748,14780,14782,14808,14739,14793,24493,24495,14743,14749,14774,14805,14741,14767,14783,40836,14746,14753,14769,14785,14784,14822,14827,16571,14751,14762,14776,24497,14759,14768,14781,14798,14775,14787,24500,42057,14756,14789,14797,14804,14773,14794,14814,14823,14747,14755,24491,14757,14758,14779,14826,42040,42041],[14743,14754,14787,14798,14752,14766,14770,14811,14806,14808,14813,17306,14782,14783,14814,24497,14755,14797,14803,14826,14756,14767,14769,14776,14739,14779,14794,43077,14823,24493,24500,24501,14775,14781,14796,14817,14746,14768,14773,14815,14760,14789,14793,30279,14757,14780,14810,39529,14740,14788,14819,20204,14747,14753,14761,14816,14741,14749,14807,14825,14744,14748,14820,14771,43076,43078,14745,14827,27824],[14758,14776,14804,14806,14798,14817,17949,20204,14797,14805,14807,24497,14773,14780,14796,14825,14742,14759,14803,14810,14784,14787,14811,39529,14746,14751,14789,44142,14743,14783,14819,14827,14770,14771,14782,27828,14745,14749,14816,42041,14753,14813,21031,24500,14744,14762,14815,14823,14755,14775,14778,14781,14769,14779,17306,17952,14740,14767,14774,16571,14747,14756,14801,14814,14785,17950,44143],[14756,14758,14794,14821,14742,14767,14769,26178,14748,14753,14773,14797,14754,14759,14766,14776,14757,14768,14796,14813,14746,14770,14793,14827,14755,14816,21031,39529,14777,14780,14787,20204,14752,14761,14781,45046,14744,14788,14817,24495,14741,14782,14810,24491,14739,14783,14785,14804,14743,14784,14806,14807,14774,14805,14808,27828,14740,14745,14778,24500,14749,14798,14803,14801,14825,45042,14789,14814,14819],[14752,14762,14794,39529,14745,14760,14815,24493,14773,14787,14789,14826,14739,14747,14766,14810,14748,14770,14779,14804,14744,20204,24500,27828,14756,14781,14806,14825,14749,14755,14784,14813,14776,14780,17952,24491,14743,14753,14754,14803,14742,14798,14808,14814,14783,14796,14819,26178,14746,14788,14827,17306,14761,14778,14797,24495,14741,14751,14775,14823,14767,14768,14820,16571,14740,14759,14801,14821,14769,14782,21031],[14741,14754,14771,14781,14740,14793,14796,14805,14745,14798,14823,20204,14755,14756,14768,14801,14739,14804,14815,24491,14774,14778,14784,14813,14744,14747,14773,14782,14746,14757,14821,14825,14751,14758,14780,14794,14770,14779,21031,24500,14767,14814,16574,26178,14748,14760,14803,14826,14742,14769,14788,14807,14761,14787,14808,39529,14759,14776,14810,43076,14749,14753,14766,14783,14775,14797,14806,14820,14827,26174,47065,14816,47066,47067],[14740,14778,14798,24497,14766,14823,21031,48399,14768,14779,14784,14810,14744,14781,14785,14816,14760,14761,14814,14826,14755,14758,14767,14782,14756,14771,14796,14820,14787,14803,14805,14815,14743,14749,14793,14801,14745,14757,14789,14825,14741,14748,14806,14827,14780,14808,14819,20204,14742,14751,14773,24500,14769,14807,24493,24495,14747,14770,14776,14821,14754,14804,14813],[14741,14755,14793,14821,14758,14768,14826,21031,14780,14796,14813,24493,14752,14798,14816,14825,14775,14776,14803,14808,14749,14814,24491,24500,14739,14742,14787,24495,14751,14756,14815,39529,14753,14757,14773,14778,14748,14781,14783,14805,14743,14762,14801,14810,14760,14766,14784,14807,14744,14761,14767,14797,14740,14746,14789,14806,14754,14759,14774,14819,14782,14788,14804,14827,14769,14770,20204,24497,14745,14794,14822]]');
 
         $players = [];
         foreach ($attendance as $round) {
@@ -414,7 +430,7 @@ class BalancedGreedyPairingTest extends TestCase {
         }
 
         // Run this simulation 10 times
-        for ($j=0;$j<10;$j++) {
+        for ($j = 0; $j < 10; $j++) {
 
             $previously_matched = [];
             $three_player_matches = [];
@@ -440,7 +456,7 @@ class BalancedGreedyPairingTest extends TestCase {
                     foreach ($group as $player) {
                         $id = array_search($player, $players);
                         if (count($group) < 4) {
-                            if (!isset($three_player_matches[$id])) {
+                            if (! isset($three_player_matches[$id])) {
                                 $three_player_matches[$id] = 1;
                             } else {
                                 $three_player_matches[$id]++;
@@ -470,5 +486,4 @@ class BalancedGreedyPairingTest extends TestCase {
 
         }
     }
-
 }
