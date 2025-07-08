@@ -84,40 +84,6 @@ class SingleEliminationBracket extends Base
     }
 
     /**
-     * Looks at winners of previous games to determine who should play
-     */
-    public function opponents_for_index($index)
-    {
-        $opponents = [];
-
-        // If $index indicates first round, use first_round groups to determine opponents
-        if ($this->round($index) === $this->number_of_rounds()) {
-            $groups = $this->first_round_groups();
-            foreach ($groups[$index] as $seed) {
-
-                // Subtract one since players are zero-indexed and seeds are not
-                if (! empty($this->players[$seed - 1])) {
-                    $opponents[] = $this->players[$seed - 1];
-                }
-            }
-
-        } else {
-            $children = $this->children($index);
-            foreach ($children as $child) {
-                if (! empty($this->winners[$child])) {
-                    foreach ($this->players as $player) {
-                        if ($player === $this->winners[$child]) {
-                            $opponents[] = $player;
-                        }
-                    }
-                }
-            }
-        }
-
-        return $opponents;
-    }
-
-    /**
      * Return player seed numbers for each game in the first round.
      * Numeric keys refer to the heap index for that game
      */
