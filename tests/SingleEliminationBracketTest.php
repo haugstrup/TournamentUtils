@@ -6,7 +6,6 @@ class SingleEliminationBracketTest extends TestCase
 {
     public function test_game_count()
     {
-        $players = [];
         $expected = [
             [4, 3],
             [8, 7],
@@ -17,14 +16,15 @@ class SingleEliminationBracketTest extends TestCase
         ];
 
         foreach ($expected as $item) {
-            $bracket = new haugstrup\TournamentUtils\SingleEliminationBracket($item[0], $players, []);
-            $this->assertEquals($bracket->game_count(), $item[1]);
+            foreach ([false, true] as $double_byes) {
+                $bracket = new haugstrup\TournamentUtils\SingleEliminationBracket($item[0], $double_byes);
+                $this->assertEquals($bracket->game_count(), $item[1]);
+            }
         }
     }
 
     public function test_number_of_rounds()
     {
-        $players = [];
         $expected = [
             [4, 2],
             [8, 3],
@@ -35,14 +35,20 @@ class SingleEliminationBracketTest extends TestCase
         ];
 
         foreach ($expected as $item) {
-            $bracket = new haugstrup\TournamentUtils\SingleEliminationBracket($item[0], $players, []);
-            $this->assertEquals($bracket->number_of_rounds(), $item[1]);
+            foreach ([false, true] as $double_byes) {
+                if ($double_byes && $item[0] !== 32) {
+                    continue;
+                }
+
+                $bracket = new haugstrup\TournamentUtils\SingleEliminationBracket($item[0], $double_byes);
+                $expected_rounds = $double_byes ? $item[1] + 1 : $item[1];
+                $this->assertEquals($bracket->number_of_rounds(), $expected_rounds);
+            }
         }
     }
 
     public function test_parent()
     {
-        $players = [];
         $expected = [
             [0, 0],
             [1, 0],
@@ -110,15 +116,22 @@ class SingleEliminationBracketTest extends TestCase
             [63, 31],
         ];
 
-        $bracket = new haugstrup\TournamentUtils\SingleEliminationBracket(64, $players, []);
+        $bracket = new haugstrup\TournamentUtils\SingleEliminationBracket(64);
         foreach ($expected as $item) {
             $this->assertEquals($bracket->parent($item[0]), $item[1]);
         }
     }
 
+    public function test_parent_double_bye()
+    {
+        $bracket = new haugstrup\TournamentUtils\SingleEliminationBracket(32, true);
+        $this->assertEquals($bracket->parent(24), 16);
+        $this->assertEquals($bracket->parent(8), 4);
+        $this->assertEquals($bracket->parent(1), 0);
+    }
+
     public function test_children()
     {
-        $players = [];
         $expected = [
             [0, [0, 1]],
             [1, [2, 3]],
@@ -154,7 +167,31 @@ class SingleEliminationBracketTest extends TestCase
             [31, [62, 63]],
         ];
 
-        $bracket = new haugstrup\TournamentUtils\SingleEliminationBracket(64, $players, []);
+        $bracket = new haugstrup\TournamentUtils\SingleEliminationBracket(64);
+        foreach ($expected as $item) {
+            $children = $bracket->children($item[0]);
+            $this->assertEquals($item[1][0], $children[0]);
+            $this->assertEquals($item[1][1], $children[1]);
+        }
+    }
+
+    public function test_children_double_bye()
+    {
+        $expected = [
+            [0, [0, 1]],
+            [1, [2, 3]],
+            [2, [4, 5]],
+            [3, [6, 7]],
+            [4, [8, 9]],
+            [5, [10, 11]],
+            [6, [12, 13]],
+            [7, [14, 15]],
+            [8, [-1, 16]],
+            [15, [-1, 33]],
+            [24, [-1, -1]],
+        ];
+
+        $bracket = new haugstrup\TournamentUtils\SingleEliminationBracket(32, true);
         foreach ($expected as $item) {
             $children = $bracket->children($item[0]);
             $this->assertEquals($item[1][0], $children[0]);
@@ -164,7 +201,6 @@ class SingleEliminationBracketTest extends TestCase
 
     public function test_round()
     {
-        $players = [];
         $expected = [
             [0, -1],
             [1, 0],
@@ -235,9 +271,116 @@ class SingleEliminationBracketTest extends TestCase
             [128, 7],
         ];
 
-        $bracket = new haugstrup\TournamentUtils\SingleEliminationBracket(64, $players, []);
+        $bracket = new haugstrup\TournamentUtils\SingleEliminationBracket(64);
         foreach ($expected as $item) {
             $this->assertEquals($item[1], $bracket->round($item[0]));
         }
+    }
+
+    public function test_round_double_bye()
+    {
+        $expected = [
+            [0, -1],
+            [1, 0],
+            [2, 1],
+            [3, 1],
+            [4, 2],
+            [5, 2],
+            [6, 2],
+            [7, 2],
+            [8, 3],
+            [9, 3],
+            [10, 3],
+            [11, 3],
+            [12, 3],
+            [13, 3],
+            [14, 3],
+            [15, 3],
+            [16, 4],
+            [17, 4],
+            [18, 4],
+            [19, 4],
+            [20, 4],
+            [21, 4],
+            [22, 4],
+            [23, 4],
+            [24, 5],
+            [25, 5],
+            [26, 5],
+            [27, 5],
+            [28, 5],
+            [29, 5],
+            [30, 5],
+            [31, 5],
+        ];
+
+        $bracket = new haugstrup\TournamentUtils\SingleEliminationBracket(32, true);
+        foreach ($expected as $item) {
+            $this->assertEquals($item[1], $bracket->round($item[0]));
+        }
+    }
+
+    public function test_initial_groups()
+    {
+        $bracket = new haugstrup\TournamentUtils\SingleEliminationBracket(8);
+        $this->assertEquals($bracket->initial_groups(), [
+            [
+                'game' => 4,
+                'round' => 2,
+                'p1' => 'S1',
+                'p2' => 'S8',
+            ],
+            [
+                'game' => 5,
+                'round' => 2,
+                'p1' => 'S4',
+                'p2' => 'S5',
+            ],
+            [
+                'game' => 6,
+                'round' => 2,
+                'p1' => 'S3',
+                'p2' => 'S6',
+            ],
+            [
+                'game' => 7,
+                'round' => 2,
+                'p1' => 'S2',
+                'p2' => 'S7',
+            ],
+        ]);
+    }
+
+    public function test_initial_groups_double_bye()
+    {
+        $bracket = new haugstrup\TournamentUtils\SingleEliminationBracket(32, true);
+        $this->assertEquals($bracket->initial_groups(), [
+            ['game' => 24, 'round' => 5, 'p1' => 'S17', 'p2' => 'S32'],
+            ['game' => 25, 'round' => 5, 'p1' => 'S24', 'p2' => 'S25'],
+            ['game' => 26, 'round' => 5, 'p1' => 'S20', 'p2' => 'S29'],
+            ['game' => 27, 'round' => 5, 'p1' => 'S21', 'p2' => 'S28'],
+            ['game' => 28, 'round' => 5, 'p1' => 'S18', 'p2' => 'S31'],
+            ['game' => 29, 'round' => 5, 'p1' => 'S23', 'p2' => 'S26'],
+            ['game' => 30, 'round' => 5, 'p1' => 'S19', 'p2' => 'S30'],
+            ['game' => 31, 'round' => 5, 'p1' => 'S22', 'p2' => 'S27'],
+
+            ['game' => 16, 'round' => 4, 'p1' => 'S9', 'p2' => 'W24'],
+            ['game' => 17, 'round' => 4, 'p1' => 'S10', 'p2' => 'W25'],
+            ['game' => 18, 'round' => 4, 'p1' => 'S11', 'p2' => 'W26'],
+            ['game' => 19, 'round' => 4, 'p1' => 'S12', 'p2' => 'W27'],
+            ['game' => 20, 'round' => 4, 'p1' => 'S13', 'p2' => 'W28'],
+            ['game' => 21, 'round' => 4, 'p1' => 'S14', 'p2' => 'W29'],
+            ['game' => 22, 'round' => 4, 'p1' => 'S15', 'p2' => 'W30'],
+            ['game' => 23, 'round' => 4, 'p1' => 'S16', 'p2' => 'W31'],
+
+            ['game' => 8, 'round' => 3, 'p1' => 'S1', 'p2' => 'W16'],
+            ['game' => 9, 'round' => 3, 'p1' => 'S2', 'p2' => 'W17'],
+            ['game' => 10, 'round' => 3, 'p1' => 'S3', 'p2' => 'W18'],
+            ['game' => 11, 'round' => 3, 'p1' => 'S4', 'p2' => 'W19'],
+            ['game' => 12, 'round' => 3, 'p1' => 'S5', 'p2' => 'W20'],
+            ['game' => 13, 'round' => 3, 'p1' => 'S6', 'p2' => 'W21'],
+            ['game' => 14, 'round' => 3, 'p1' => 'S7', 'p2' => 'W22'],
+            ['game' => 15, 'round' => 3, 'p1' => 'S8', 'p2' => 'W33'],
+        ]);
     }
 }

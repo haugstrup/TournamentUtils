@@ -10,9 +10,12 @@ class SingleEliminationBracket extends Base
 
     public $bracket_size;
 
-    public function __construct($bracket_size)
+    public $double_byes;
+
+    public function __construct($bracket_size, $double_byes = false)
     {
         $this->bracket_size = $bracket_size;
+        $this->double_byes = $double_byes;
     }
 
     /**
@@ -20,6 +23,21 @@ class SingleEliminationBracket extends Base
      */
     public function children($parent_index)
     {
+        $map = $this->get_double_bye_bracket_map();
+        if ($map) {
+            foreach ($map as $game) {
+                if ($game['game'] == $parent_index) {
+                    // Player may be a bye player coming in and we need to handle those separately
+                    $p1 = $game['p1'][0] === 'S' ? -1 : (int) substr($game['p1'], 1);
+                    $p2 = $game['p2'][0] === 'S' ? -1 : (int) substr($game['p2'], 1);
+
+                    return [$p1, $p2];
+                }
+            }
+
+            return [0, 1];
+        }
+
         return [$parent_index << 1, ($parent_index << 1) + 1];
     }
 
@@ -28,6 +46,18 @@ class SingleEliminationBracket extends Base
      */
     public function parent($child_index)
     {
+        $map = $this->get_double_bye_bracket_map();
+        if ($map) {
+            $label = 'W'.$child_index;
+            foreach ($map as $game) {
+                if ($game['p1'] == $label || $game['p2'] == $label) {
+                    return $game['game'];
+                }
+            }
+
+            return 0;
+        }
+
         return $child_index >> 1;
     }
 
@@ -44,6 +74,17 @@ class SingleEliminationBracket extends Base
      */
     public function round($index)
     {
+        $map = $this->get_double_bye_bracket_map();
+        if ($map) {
+            foreach ($map as $game) {
+                if ($game['game'] == $index) {
+                    return $game['round'];
+                }
+            }
+
+            return -1;
+        }
+
         $n = -1;
         while ($index > 0) {
             $index >>= 1;
@@ -54,32 +95,62 @@ class SingleEliminationBracket extends Base
     }
 
     /**
-     * Get the list of game indexes for a given round index.
-     */
-    public function indexes_in_round($round)
-    {
-        $list = [];
-
-        for ($i = 1; $i <= $this->game_count(); $i++) {
-            if ($this->round($i) === $round) {
-                $list[] = $i;
-            }
-        }
-
-        return $list;
-    }
-
-    /**
      * Get the total number of rounds in bracket.
      */
     public function number_of_rounds()
     {
+        $map = $this->get_double_bye_bracket_map();
+        if ($map) {
+            $func = function ($game) {
+                return $game['round'];
+            };
+            $list = array_unique(array_map($func, $map));
+            rsort($list);
+
+            return $list[0] + 1;
+        }
+
         return $this->round($this->game_count()) + 1;
+    }
+
+    /**
+     * Get the games to create at the onset of the tournament
+     */
+    public function initial_groups()
+    {
+        $double_map = $this->get_double_bye_bracket_map();
+        if ($double_map) {
+            $return = [];
+            foreach ($double_map as $game) {
+                if ($game['p1'][0] === 'S') {
+                    $return[] = $game;
+                }
+            }
+
+            return $return;
+        } else {
+            $single_map = $this->first_round_groups();
+            $return = [];
+            foreach ($single_map as $idx => $players) {
+                $return[] = [
+                    'game' => $idx,
+                    'round' => $this->round($idx),
+                    'p1' => 'S'.$players[0],
+                    'p2' => 'S'.$players[1],
+                ];
+            }
+
+            return $return;
+        }
+
+        return [];
     }
 
     /**
      * Return player seed numbers for each game in the first round.
      * Numeric keys refer to the heap index for that game
+     *
+     * @deprecated Use `initial_groups` above -- this doesn't support double byes
      */
     public function first_round_groups()
     {
@@ -219,5 +290,58 @@ class SingleEliminationBracket extends Base
         ];
 
         return $map[$this->bracket_size];
+    }
+
+    /**
+     * Get a map of all games for doubly bye brackets
+     */
+    public function get_double_bye_bracket_map()
+    {
+        $map = [
+            32 => [
+                ['game' => 24, 'round' => 5, 'p1' => 'S17', 'p2' => 'S32'],
+                ['game' => 25, 'round' => 5, 'p1' => 'S24', 'p2' => 'S25'],
+                ['game' => 26, 'round' => 5, 'p1' => 'S20', 'p2' => 'S29'],
+                ['game' => 27, 'round' => 5, 'p1' => 'S21', 'p2' => 'S28'],
+                ['game' => 28, 'round' => 5, 'p1' => 'S18', 'p2' => 'S31'],
+                ['game' => 29, 'round' => 5, 'p1' => 'S23', 'p2' => 'S26'],
+                ['game' => 30, 'round' => 5, 'p1' => 'S19', 'p2' => 'S30'],
+                ['game' => 31, 'round' => 5, 'p1' => 'S22', 'p2' => 'S27'],
+
+                ['game' => 16, 'round' => 4, 'p1' => 'S9', 'p2' => 'W24'],
+                ['game' => 17, 'round' => 4, 'p1' => 'S10', 'p2' => 'W25'],
+                ['game' => 18, 'round' => 4, 'p1' => 'S11', 'p2' => 'W26'],
+                ['game' => 19, 'round' => 4, 'p1' => 'S12', 'p2' => 'W27'],
+                ['game' => 20, 'round' => 4, 'p1' => 'S13', 'p2' => 'W28'],
+                ['game' => 21, 'round' => 4, 'p1' => 'S14', 'p2' => 'W29'],
+                ['game' => 22, 'round' => 4, 'p1' => 'S15', 'p2' => 'W30'],
+                ['game' => 23, 'round' => 4, 'p1' => 'S16', 'p2' => 'W31'],
+
+                ['game' => 8, 'round' => 3, 'p1' => 'S1', 'p2' => 'W16'],
+                ['game' => 9, 'round' => 3, 'p1' => 'S2', 'p2' => 'W17'],
+                ['game' => 10, 'round' => 3, 'p1' => 'S3', 'p2' => 'W18'],
+                ['game' => 11, 'round' => 3, 'p1' => 'S4', 'p2' => 'W19'],
+                ['game' => 12, 'round' => 3, 'p1' => 'S5', 'p2' => 'W20'],
+                ['game' => 13, 'round' => 3, 'p1' => 'S6', 'p2' => 'W21'],
+                ['game' => 14, 'round' => 3, 'p1' => 'S7', 'p2' => 'W22'],
+                ['game' => 15, 'round' => 3, 'p1' => 'S8', 'p2' => 'W33'],
+
+                ['game' => 4, 'round' => 2, 'p1' => 'W8', 'p2' => 'W9'],
+                ['game' => 5, 'round' => 2, 'p1' => 'W10', 'p2' => 'W11'],
+                ['game' => 6, 'round' => 2, 'p1' => 'W12', 'p2' => 'W13'],
+                ['game' => 7, 'round' => 2, 'p1' => 'W14', 'p2' => 'W15'],
+
+                ['game' => 2, 'round' => 1, 'p1' => 'W4', 'p2' => 'W5'],
+                ['game' => 3, 'round' => 1, 'p1' => 'W6', 'p2' => 'W7'],
+
+                ['game' => 1, 'round' => 0, 'p1' => 'W2', 'p2' => 'W3'],
+            ],
+        ];
+
+        if (! $this->double_byes) {
+            return null;
+        }
+
+        return isset($map[$this->bracket_size]) ? $map[$this->bracket_size] : null;
     }
 }
