@@ -14,28 +14,40 @@ class SingleEliminationBracket extends Base
 
     public $winners;
 
-    public function __construct($bracket_size, $players, $winners_by_heap_index)
+    public function __construct($bracket_size, $players, $winners_by_heap_index = [])
     {
         $this->bracket_size = $bracket_size;
         $this->players = $players;
         $this->winners = $winners_by_heap_index;
     }
 
+    /**
+     * Get index for the two child games for a given game index.
+     */
     public function children($parent_index)
     {
         return [$parent_index << 1, ($parent_index << 1) + 1];
     }
 
+    /**
+     * Get the index for the parent index for a given game index.
+     */
     public function parent($child_index)
     {
         return $child_index >> 1;
     }
 
+    /**
+     * Get total number of games in the bracket.
+     */
     public function game_count()
     {
         return $this->bracket_size - 1;
     }
 
+    /**
+     * Get the round index for a given game index.
+     */
     public function round($index)
     {
         $n = -1;
@@ -47,6 +59,9 @@ class SingleEliminationBracket extends Base
         return $n;
     }
 
+    /**
+     * Get the list of game indexes for a given round index.
+     */
     public function indexes_in_round($round)
     {
         $list = [];
@@ -60,12 +75,17 @@ class SingleEliminationBracket extends Base
         return $list;
     }
 
+    /**
+     * Get the total number of rounds in bracket.
+     */
     public function number_of_rounds()
     {
         return $this->round($this->game_count()) + 1;
     }
 
-    // Looks at winners of previous games to determine who should play
+    /**
+     * Looks at winners of previous games to determine who should play
+     */
     public function opponents_for_index($index)
     {
         $opponents = [];
@@ -97,8 +117,10 @@ class SingleEliminationBracket extends Base
         return $opponents;
     }
 
-    // Pairs of opponents for the first round
-    // Numeric keys refer to the heap index for that game
+    /**
+     * Return player seed numbers for each game in the first round.
+     * Numeric keys refer to the heap index for that game
+     */
     public function first_round_groups()
     {
         $map = [
