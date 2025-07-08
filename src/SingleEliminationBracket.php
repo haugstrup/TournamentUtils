@@ -6,19 +6,13 @@ require_once 'Base.php';
 
 class SingleEliminationBracket extends Base
 {
-    // This class relies on a binary heap as described on: http://joenoodles.com/2013/3/2013-bracket-design
-
     public $players = [];
 
     public $bracket_size;
 
-    public $winners;
-
-    public function __construct($bracket_size, $players = [], $winners_by_heap_index = [])
+    public function __construct($bracket_size)
     {
         $this->bracket_size = $bracket_size;
-        $this->players = $players;
-        $this->winners = $winners_by_heap_index;
     }
 
     /**
