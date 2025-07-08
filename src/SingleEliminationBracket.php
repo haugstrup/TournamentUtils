@@ -14,7 +14,7 @@ class SingleEliminationBracket extends Base
 
     public $winners;
 
-    public function __construct($bracket_size, $players, $winners_by_heap_index = [])
+    public function __construct($bracket_size, $players = [], $winners_by_heap_index = [])
     {
         $this->bracket_size = $bracket_size;
         $this->players = $players;
