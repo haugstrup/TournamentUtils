@@ -35,16 +35,15 @@ class SingleEliminationBracketTest extends TestCase
         ];
 
         foreach ($expected as $item) {
-            foreach ([false, true] as $double_byes) {
-                if ($double_byes && $item[0] !== 32) {
-                    continue;
-                }
-
-                $bracket = new haugstrup\TournamentUtils\SingleEliminationBracket($item[0], $double_byes);
-                $expected_rounds = $double_byes ? $item[1] + 1 : $item[1];
-                $this->assertEquals($bracket->number_of_rounds(), $expected_rounds);
-            }
+            $bracket = new haugstrup\TournamentUtils\SingleEliminationBracket($item[0]);
+            $this->assertEquals($bracket->number_of_rounds(), $item[1]);
         }
+    }
+
+    public function test_number_of_rounds_double_bye()
+    {
+        $bracket = new haugstrup\TournamentUtils\SingleEliminationBracket(32, true);
+        $this->assertEquals($bracket->number_of_rounds(), 6);
     }
 
     public function test_parent()
@@ -364,23 +363,23 @@ class SingleEliminationBracketTest extends TestCase
             ['game' => 30, 'round' => 5, 'p1' => 'S19', 'p2' => 'S30'],
             ['game' => 31, 'round' => 5, 'p1' => 'S22', 'p2' => 'S27'],
 
-            ['game' => 16, 'round' => 4, 'p1' => 'S9', 'p2' => 'W24'],
-            ['game' => 17, 'round' => 4, 'p1' => 'S10', 'p2' => 'W25'],
-            ['game' => 18, 'round' => 4, 'p1' => 'S11', 'p2' => 'W26'],
+            ['game' => 16, 'round' => 4, 'p1' => 'S16', 'p2' => 'W24'],
+            ['game' => 17, 'round' => 4, 'p1' => 'S9', 'p2' => 'W25'],
+            ['game' => 18, 'round' => 4, 'p1' => 'S13', 'p2' => 'W26'],
             ['game' => 19, 'round' => 4, 'p1' => 'S12', 'p2' => 'W27'],
-            ['game' => 20, 'round' => 4, 'p1' => 'S13', 'p2' => 'W28'],
-            ['game' => 21, 'round' => 4, 'p1' => 'S14', 'p2' => 'W29'],
-            ['game' => 22, 'round' => 4, 'p1' => 'S15', 'p2' => 'W30'],
-            ['game' => 23, 'round' => 4, 'p1' => 'S16', 'p2' => 'W31'],
+            ['game' => 20, 'round' => 4, 'p1' => 'S15', 'p2' => 'W28'],
+            ['game' => 21, 'round' => 4, 'p1' => 'S10', 'p2' => 'W29'],
+            ['game' => 22, 'round' => 4, 'p1' => 'S14', 'p2' => 'W30'],
+            ['game' => 23, 'round' => 4, 'p1' => 'S11', 'p2' => 'W31'],
 
             ['game' => 8, 'round' => 3, 'p1' => 'S1', 'p2' => 'W16'],
-            ['game' => 9, 'round' => 3, 'p1' => 'S2', 'p2' => 'W17'],
-            ['game' => 10, 'round' => 3, 'p1' => 'S3', 'p2' => 'W18'],
-            ['game' => 11, 'round' => 3, 'p1' => 'S4', 'p2' => 'W19'],
-            ['game' => 12, 'round' => 3, 'p1' => 'S5', 'p2' => 'W20'],
-            ['game' => 13, 'round' => 3, 'p1' => 'S6', 'p2' => 'W21'],
-            ['game' => 14, 'round' => 3, 'p1' => 'S7', 'p2' => 'W22'],
-            ['game' => 15, 'round' => 3, 'p1' => 'S8', 'p2' => 'W33'],
+            ['game' => 9, 'round' => 3, 'p1' => 'S8', 'p2' => 'W17'],
+            ['game' => 10, 'round' => 3, 'p1' => 'S4', 'p2' => 'W18'],
+            ['game' => 11, 'round' => 3, 'p1' => 'S5', 'p2' => 'W19'],
+            ['game' => 12, 'round' => 3, 'p1' => 'S2', 'p2' => 'W20'],
+            ['game' => 13, 'round' => 3, 'p1' => 'S7', 'p2' => 'W21'],
+            ['game' => 14, 'round' => 3, 'p1' => 'S3', 'p2' => 'W22'],
+            ['game' => 15, 'round' => 3, 'p1' => 'S6', 'p2' => 'W33'],
         ]);
     }
 }
