@@ -324,7 +324,7 @@ class SingleEliminationBracket extends Base
                 ['game' => 12, 'round' => 3, 'p1' => 'S2', 'p2' => 'W20'],
                 ['game' => 13, 'round' => 3, 'p1' => 'S7', 'p2' => 'W21'],
                 ['game' => 14, 'round' => 3, 'p1' => 'S3', 'p2' => 'W22'],
-                ['game' => 15, 'round' => 3, 'p1' => 'S6', 'p2' => 'W33'],
+                ['game' => 15, 'round' => 3, 'p1' => 'S6', 'p2' => 'W23'],
 
                 ['game' => 4, 'round' => 2, 'p1' => 'W8', 'p2' => 'W9'],
                 ['game' => 5, 'round' => 2, 'p1' => 'W10', 'p2' => 'W11'],
