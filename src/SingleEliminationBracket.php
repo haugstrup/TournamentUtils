@@ -122,7 +122,7 @@ class SingleEliminationBracket extends Base
         if ($double_map) {
             $return = [];
             foreach ($double_map as $game) {
-                if ($game['p1'][0] === 'S') {
+                if ($game['round'] === ($this->number_of_rounds() - 1)) {
                     $return[] = $game;
                 }
             }
