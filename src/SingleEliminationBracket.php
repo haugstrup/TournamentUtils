@@ -298,6 +298,39 @@ class SingleEliminationBracket extends Base
     public function get_double_bye_bracket_map()
     {
         $map = [
+            8 => [
+                ['game' => 6, 'round' => 3, 'p1' => 'S5', 'p2' => 'S8'],
+                ['game' => 7, 'round' => 3, 'p1' => 'S6', 'p2' => 'S7'],
+
+                ['game' => 4, 'round' => 2, 'p1' => 'S4', 'p2' => 'W6'],
+                ['game' => 5, 'round' => 2, 'p1' => 'S3', 'p2' => 'W7'],
+
+                ['game' => 2, 'round' => 1, 'p1' => 'S1', 'p2' => 'W4'],
+                ['game' => 3, 'round' => 1, 'p1' => 'S2', 'p2' => 'W5'],
+
+                ['game' => 1, 'round' => 0, 'p1' => 'W2', 'p2' => 'W3'],
+            ],
+            16 => [
+                ['game' => 12, 'round' => 4, 'p1' => 'S9', 'p2' => 'S16'],
+                ['game' => 13, 'round' => 4, 'p1' => 'S13', 'p2' => 'S14'],
+                ['game' => 14, 'round' => 4, 'p1' => 'S10', 'p2' => 'S15'],
+                ['game' => 15, 'round' => 4, 'p1' => 'S11', 'p2' => 'S12'],
+
+                ['game' => 8, 'round' => 3, 'p1' => 'S8', 'p2' => 'W12'],
+                ['game' => 9, 'round' => 3, 'p1' => 'S6', 'p2' => 'W13'],
+                ['game' => 10, 'round' => 3, 'p1' => 'S7', 'p2' => 'W14'],
+                ['game' => 11, 'round' => 3, 'p1' => 'S6', 'p2' => 'W15'],
+
+                ['game' => 4, 'round' => 2, 'p1' => 'S1', 'p2' => 'W8'],
+                ['game' => 5, 'round' => 2, 'p1' => 'S4', 'p2' => 'W9'],
+                ['game' => 6, 'round' => 2, 'p1' => 'S2', 'p2' => 'W10'],
+                ['game' => 7, 'round' => 2, 'p1' => 'S3', 'p2' => 'W11'],
+
+                ['game' => 2, 'round' => 1, 'p1' => 'W4', 'p2' => 'W5'],
+                ['game' => 3, 'round' => 1, 'p1' => 'W6', 'p2' => 'W7'],
+
+                ['game' => 1, 'round' => 0, 'p1' => 'W2', 'p2' => 'W3'],
+            ],
             32 => [
                 ['game' => 24, 'round' => 5, 'p1' => 'S17', 'p2' => 'S32'],
                 ['game' => 25, 'round' => 5, 'p1' => 'S24', 'p2' => 'S25'],
