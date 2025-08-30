@@ -4,14 +4,20 @@ namespace haugstrup\TournamentUtils;
 
 require_once 'RandomOptimizer.php';
 
-class BalancedGreedyPairingArena extends RandomOptimizer
+class BalancedPlayerArenaPairing extends RandomOptimizer
 {
     public $group_size = 4;
+
     public $list = [];
+
     public $previously_matched = [];
+
     public $three_player_group_counts = [];
+
     public $available_arenas = [];
+
     public $arena_plays = [];
+
     public $amount = 1;
 
     public function __construct(
@@ -40,13 +46,13 @@ class BalancedGreedyPairingArena extends RandomOptimizer
     public function solution($input)
     {
         $solution = [];
-        
+
         // Shuffle players and arenas
         $ids = array_keys($input);
         shuffle($ids);
         $available_arenas = $this->available_arenas;
         shuffle($available_arenas);
-        
+
         $player_count = count($ids);
 
         // Find number of three player groups needed
@@ -61,33 +67,33 @@ class BalancedGreedyPairingArena extends RandomOptimizer
         // Generate array of empty groups with arena slots
         $solution = [];
         $num_groups = intval(ceil($player_count / $this->group_size));
-        
+
         // Handle special case for smaller player counts with group_size = 4
         if ($this->group_size === 4) {
             if ($player_count <= 5) {
                 $num_groups = 1;
-            } else if ($player_count <= 9) {
+            } elseif ($player_count <= 9) {
                 $num_groups = 2;
-            } else if ($player_count <= 13) {
+            } elseif ($player_count <= 13) {
                 $num_groups = 3;
             }
         }
 
         for ($i = 0; $i < $num_groups; $i++) {
             $group_size = $this->group_size;
-            
+
             // Adjust for three-player groups at the end
             if ($this->group_size === 4 && $i >= ($num_groups - $num_of_three_player_groups)) {
                 $group_size = 3;
-            } else if ($this->group_size === 2 && $player_count % 2 === 1 && $i === $num_groups - 1) {
+            } elseif ($this->group_size === 2 && $player_count % 2 === 1 && $i === $num_groups - 1) {
                 $group_size = 3;
             }
-            
+
             $solution[] = [
                 'players' => [],
                 'arenas' => array_fill(0, $this->amount, null),
                 'size' => $group_size,
-                'cost' => 0
+                'cost' => 0,
             ];
         }
 
@@ -116,28 +122,28 @@ class BalancedGreedyPairingArena extends RandomOptimizer
                 // If this is the last player for the group, also consider arena assignment
                 $arena_cost = 0;
                 $arena_assignment = $group['arenas'];
-                
+
                 if (count($test_players) === $group['size']) {
                     // Group will be complete, find best arena assignment
                     $best_arena_cost = null;
                     $best_assignment = null;
-                    
+
                     // Try different arena combinations
                     for ($attempt = 0; $attempt < 10; $attempt++) { // Limit attempts for performance
                         $test_assignment = array_fill(0, $this->amount, null);
                         $test_cost = 0;
-                        
+
                         for ($round = 0; $round < $this->amount; $round++) {
                             if (empty($arena_availability[$round])) {
                                 continue;
                             }
-                            
+
                             $available_in_round = $arena_availability[$round];
                             shuffle($available_in_round);
-                            
+
                             $round_best_cost = null;
                             $round_best_arena = null;
-                            
+
                             foreach ($available_in_round as $arena) {
                                 $round_cost = $this->cost_for_arena_selection($test_players, $arena);
                                 if (is_null($round_best_cost) || $round_cost < $round_best_cost) {
@@ -145,17 +151,17 @@ class BalancedGreedyPairingArena extends RandomOptimizer
                                     $round_best_arena = $arena;
                                 }
                             }
-                            
+
                             $test_assignment[$round] = $round_best_arena;
                             $test_cost += $round_best_cost;
                         }
-                        
+
                         if (is_null($best_arena_cost) || $test_cost < $best_arena_cost) {
                             $best_arena_cost = $test_cost;
                             $best_assignment = $test_assignment;
                         }
                     }
-                    
+
                     $arena_cost = $best_arena_cost ?? 0;
                     $arena_assignment = $best_assignment ?? $arena_assignment;
                 }
@@ -170,19 +176,19 @@ class BalancedGreedyPairingArena extends RandomOptimizer
             }
 
             // Assign player to best group
-            if (!is_null($best_group_idx)) {
+            if (! is_null($best_group_idx)) {
                 $solution[$best_group_idx]['players'][] = $player_id;
                 $solution[$best_group_idx]['cost'] = $best_cost;
-                
+
                 // If group is now complete, reserve the arenas
                 if (count($solution[$best_group_idx]['players']) === $solution[$best_group_idx]['size']) {
                     $solution[$best_group_idx]['arenas'] = $best_arena_assignment;
-                    
+
                     // Remove assigned arenas from availability
                     for ($round = 0; $round < $this->amount; $round++) {
                         if ($best_arena_assignment[$round] !== null) {
                             $arena_availability[$round] = array_diff(
-                                $arena_availability[$round], 
+                                $arena_availability[$round],
                                 [$best_arena_assignment[$round]]
                             );
                         }
@@ -198,13 +204,13 @@ class BalancedGreedyPairingArena extends RandomOptimizer
                 'players' => [],
                 'arenas' => $group['arenas'],
                 'size' => $group['size'],
-                'cost' => $group['cost']
+                'cost' => $group['cost'],
             ];
-            
+
             foreach ($group['players'] as $player_id) {
                 $formatted_group['players'][] = $this->list[$player_id];
             }
-            
+
             $formatted_solution[] = $formatted_group;
         }
 
@@ -230,10 +236,10 @@ class BalancedGreedyPairingArena extends RandomOptimizer
             if (isset($this->previously_matched[$id])) {
                 foreach ($this->previously_matched[$id] as $opponent_id) {
                     if (in_array($opponent_id, $players)) {
-                        if (!isset($opponent_counts[$id])) {
+                        if (! isset($opponent_counts[$id])) {
                             $opponent_counts[$id] = [];
                         }
-                        if (!isset($opponent_counts[$id][$opponent_id])) {
+                        if (! isset($opponent_counts[$id][$opponent_id])) {
                             $opponent_counts[$id][$opponent_id] = 0;
                         }
                         $opponent_counts[$id][$opponent_id]++;
@@ -302,15 +308,17 @@ class BalancedGreedyPairingArena extends RandomOptimizer
         foreach ($solution as $group) {
             $cost += $group['cost'];
         }
+
         return $cost;
     }
 
     public function build()
     {
         $result = $this->solve($this->list);
+
         return [
             'cost' => $result['cost'],
-            'groups' => $result['solution']
+            'groups' => $result['solution'],
         ];
     }
 }
