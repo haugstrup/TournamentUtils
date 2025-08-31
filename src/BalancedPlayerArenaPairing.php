@@ -8,21 +8,23 @@ class BalancedPlayerArenaPairing extends RandomOptimizer
 {
     public $group_size = 4;
 
-    public $list = [];
+    /** Array of player objects, keyed by the player id */
+    public $players = [];
+
+    /** Array of arena ids */
+    public $arenas = [];
 
     public $previously_matched = [];
 
     public $three_player_group_counts = [];
-
-    public $available_arenas = [];
 
     public $arena_plays = [];
 
     public $amount = 1;
 
     public function __construct(
-        $list,
-        $available_arenas,
+        $players,
+        $arenas,
         $previously_matched = [],
         $arena_plays = [],
         $group_size = 4,
@@ -30,8 +32,8 @@ class BalancedPlayerArenaPairing extends RandomOptimizer
         $amount = 1
     ) {
         $this->iterations = 100;
-        $this->list = $list;
-        $this->available_arenas = $available_arenas;
+        $this->players = $players;
+        $this->arenas = $arenas;
         $this->previously_matched = $previously_matched;
         $this->arena_plays = $arena_plays;
         $this->three_player_group_counts = $three_player_group_counts;
@@ -50,8 +52,8 @@ class BalancedPlayerArenaPairing extends RandomOptimizer
         // Shuffle players and arenas
         $ids = array_keys($input);
         shuffle($ids);
-        $available_arenas = $this->available_arenas;
-        shuffle($available_arenas);
+        $arenas = $this->arenas;
+        shuffle($arenas);
 
         $player_count = count($ids);
 
@@ -100,7 +102,7 @@ class BalancedPlayerArenaPairing extends RandomOptimizer
         // Create a list of available arena assignments for each round of $amount
         $arena_availability = [];
         for ($round = 0; $round < $this->amount; $round++) {
-            $arena_availability[$round] = $available_arenas;
+            $arena_availability[$round] = $arenas;
         }
 
         // Assign players to groups using greedy selection considering both pairing and arena costs
@@ -208,7 +210,7 @@ class BalancedPlayerArenaPairing extends RandomOptimizer
             ];
 
             foreach ($group['players'] as $player_id) {
-                $formatted_group['players'][] = $this->list[$player_id];
+                $formatted_group['players'][] = $this->players[$player_id];
             }
 
             $formatted_solution[] = $formatted_group;
@@ -314,7 +316,7 @@ class BalancedPlayerArenaPairing extends RandomOptimizer
 
     public function build()
     {
-        $result = $this->solve($this->list);
+        $result = $this->solve($this->players);
 
         return [
             'cost' => $result['cost'],
