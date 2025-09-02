@@ -14,31 +14,32 @@ class BalancedPlayerArenaPairing extends RandomOptimizer
     /** Array of arena ids */
     public $arenas = [];
 
-    public $previously_matched = [];
+    public $opponent_counts = [];
 
     public $three_player_group_counts = [];
 
-    public $arena_plays = [];
+    public $arena_counts = [];
 
     public $amount = 1;
 
     public function __construct(
         $players,
         $arenas,
-        $previously_matched = [],
-        $arena_plays = [],
-        $group_size = 4,
+        $opponent_counts = [],
+        $arena_counts = [],
         $three_player_group_counts = [],
-        $amount = 1
+        $group_size = 4,
+        $amount = 1,
+        $iterations = 100,
     ) {
-        $this->iterations = 100;
         $this->players = $players;
         $this->arenas = $arenas;
-        $this->previously_matched = $previously_matched;
-        $this->arena_plays = $arena_plays;
+        $this->opponent_counts = $opponent_counts;
         $this->three_player_group_counts = $three_player_group_counts;
+        $this->arena_counts = $arena_counts;
         $this->group_size = $group_size;
         $this->amount = $amount;
+        $this->iterations = $iterations;
 
         if ($group_size !== 2 && $group_size !== 4) {
             throw new \Exception('Group size must be 2 or 4');
@@ -235,8 +236,8 @@ class BalancedPlayerArenaPairing extends RandomOptimizer
         // Repeated opponent penalties
         $opponent_counts = [];
         foreach ($players as $id) {
-            if (isset($this->previously_matched[$id])) {
-                foreach ($this->previously_matched[$id] as $opponent_id) {
+            if (isset($this->opponent_counts[$id])) {
+                foreach ($this->opponent_counts[$id] as $opponent_id) {
                     if (in_array($opponent_id, $players)) {
                         if (! isset($opponent_counts[$id])) {
                             $opponent_counts[$id] = [];
@@ -282,17 +283,17 @@ class BalancedPlayerArenaPairing extends RandomOptimizer
 
         // Calculate how many times each player has played this arena
         foreach ($players as $player_id) {
-            if (isset($this->arena_plays[$player_id][$arena])) {
-                $cost += pow($this->arena_plays[$player_id][$arena], 2);
-                $arena_counts[$player_id] = $this->arena_plays[$player_id][$arena];
+            if (isset($this->arena_counts[$player_id][$arena])) {
+                $cost += pow($this->arena_counts[$player_id][$arena], 2);
+                $arena_counts[$player_id] = $this->arena_counts[$player_id][$arena];
             }
         }
 
         // Additional fairness penalty for multiple arena repeats
         foreach ($players as $player_id) {
             if (isset($arena_counts[$player_id]) && $arena_counts[$player_id] > 0) {
-                if (isset($this->arena_plays[$player_id])) {
-                    foreach ($this->arena_plays[$player_id] as $other_arena => $count) {
+                if (isset($this->arena_counts[$player_id])) {
+                    foreach ($this->arena_counts[$player_id] as $other_arena => $count) {
                         if ($other_arena !== $arena && $count > 0) {
                             $cost += $count;
                         }

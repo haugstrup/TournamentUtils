@@ -151,8 +151,8 @@ class BalancedPairingComparisonTest extends TestCase
                 $arenas,
                 $previously_matched,
                 $arena_plays,
-                4,
                 $three_player_matches,
+                4,
                 1
             );
             $combined_result = $combined_builder->build();
