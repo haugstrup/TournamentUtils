@@ -7,6 +7,8 @@ namespace haugstrup\TournamentUtils;
  */
 class GlickoCalculator
 {
+    private $disable_group_size_adjustment = null;
+
     private $default_rating = null;
 
     private $default_rd = null;
@@ -83,12 +85,18 @@ class GlickoCalculator
      * @param  int  $rd_min
      * @return void
      */
-    public function __construct($default_rating = 1500, $default_rd = 350, $c = 14.2694, $rd_min = 30)
-    {
+    public function __construct(
+        $default_rating = 1500,
+        $default_rd = 350,
+        $c = 14.2694,
+        $rd_min = 30,
+        $disable_group_size_adjustment = false,
+    ) {
         $this->default_rating = $default_rating;
         $this->default_rd = $default_rd;
         $this->c = $c;
         $this->rd_min = $rd_min;
+        $this->disable_group_size_adjustment = $disable_group_size_adjustment;
     }
 
     /**
@@ -122,10 +130,10 @@ class GlickoCalculator
         $group_size_loser = $group_size_loser ? $group_size_loser : count($result);
         $adjustment_winner = null;
         $adjustment_loser = null;
-        if ($group_size_winner > 2) {
+        if (! $this->disable_group_size_adjustment && $group_size_winner > 2) {
             $adjustment_winner = sqrt($group_size_winner - 1);
         }
-        if ($group_size_loser > 2) {
+        if (! $this->disable_group_size_adjustment && $group_size_loser > 2) {
             $adjustment_loser = sqrt($group_size_loser - 1);
         }
 
@@ -175,7 +183,7 @@ class GlickoCalculator
 
         $group_size = $group_size ? $group_size : count($result);
         $adjustment = null;
-        if ($group_size > 2) {
+        if (! $this->disable_group_size_adjustment && $group_size > 2) {
             $adjustment = sqrt($group_size - 1);
         }
 
